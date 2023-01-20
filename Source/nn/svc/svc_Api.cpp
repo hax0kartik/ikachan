@@ -24,6 +24,19 @@ namespace svc {
         bx lr
     }
 
+    __asm void __attribute__((section("i._ZN2nn3svc12CreateThreadEPNS_6HandleEPFvjEjjii"))) CreateThread(nn::Handle* , void (*)(u32), u32, u32, int, int)
+    {
+        push {r0, r4}
+        ldr r0, [sp, #8]
+        ldr r4, [sp, #0xc]
+        svc 0x8
+        ldr r2, [sp]
+        str r1, [r2]
+        add sp, sp, #4
+        pop {r4}
+        bx lr
+    }
+
     __asm void __attribute__((section("i._ZN2nn3svc11SleepThreadEy"))) SleepThread(u64 nanos)
     {
         svc 0xa
@@ -83,7 +96,11 @@ namespace svc {
 
     __asm nn::Result __attribute__((section("i._ZN2nn3svc16ArbitrateAddressENS_6HandleEjNS_2os15ArbitrationTypeEix"))) ArbitrateAddress(nn::Handle arbiter, uintptr_t addr, nn::os::ArbitrationType type, s32 value, s64 ns)
     {
+        push {r4, r5}
+        ldr r4, [sp, #8]
+        ldr r5, [sp, #0xC]
         svc 0x22
+        pop {r4, r5}
         bx lr
     }
 
