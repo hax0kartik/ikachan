@@ -1,6 +1,7 @@
 #include "Game/NpChar.h"
 
-void InitNpChar(NpChar *npc){
+void InitNpChar(NpChar *npc)
+{
     for (int i = 0; i < 100; i++) {
         npc[i].type = 0;
         npc[i].code_char = 0;
@@ -18,4 +19,9 @@ void InitNpChar(NpChar *npc){
 		npc[i].tgt_y = 0;
         npc[i].cond = false;
     }
+}
+
+void ActNpChar(NpChar *npc)
+{
+
 }
