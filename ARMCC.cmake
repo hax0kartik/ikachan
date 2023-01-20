@@ -23,7 +23,7 @@ macro(__compiler_armcc lang)
   string(APPEND CMAKE_${lang}_FLAGS_INIT " ")
   string(APPEND CMAKE_${lang}_FLAGS_DEBUG_INIT " -g")
   string(APPEND CMAKE_${lang}_FLAGS_MINSIZEREL_INIT " -Ospace -DNDEBUG")
-  string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -Otime -DNDEBUG")
+  string(APPEND CMAKE_${lang}_FLAGS_RELEASE_INIT " -O3 -DNDEBUG")
   string(APPEND CMAKE_${lang}_FLAGS_RELWITHDEBINFO_INIT " -O2 -g")
 
   set(CMAKE_${lang}_OUTPUT_EXTENSION ".o")
