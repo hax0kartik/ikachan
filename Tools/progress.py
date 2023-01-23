@@ -39,10 +39,10 @@ def main():
                     addrs_changed = True
                     syms_undefined -= 1
                     syms_total -= 1
+                    if sym[2] == 'U':
+                        syms_undefined += 1
                 syms_total += 1
                 match sym[2]:
-                    case 'U':
-                        syms_undefined += 1
                     case 'M':
                         syms_major += 1
                     case 'm':
@@ -66,13 +66,13 @@ def main():
     bytes_ok_str = "{:.4f}% ({:,} bytes/{:,} bytes)".format((bytes_ok / code_bin_size) * 100, int(bytes_ok), int(code_bin_size))
 
     print_type("Total Functions", str(syms_total), Fore.RESET);
-    print_type("Matching", str(syms_ok), Fore.GREEN);
-    print_type("Non-matching", str(syms_ok + syms_major + syms_minor), Fore.YELLOW);
+    print_type("Implemented", str(syms_ok + syms_major + syms_minor), Fore.GREEN);
+    print_type("Known", str(syms_undefined + syms_ok + syms_major + syms_minor), Fore.YELLOW);
     print_type("code.bin", bytes_ok_str, Fore.CYAN);
 
     write_type('Total', "Total Functions", str(syms_total), 'inactive');
-    write_type('OK', "Matching", str(syms_ok), "success");
-    write_type('NonMatching', "Non-matching", str(syms_ok + syms_major + syms_minor), "yellow");
+    write_type('Implemented', "Implemented", str(syms_ok + syms_major + syms_minor), "success");
+    write_type('Known', "Known", str(syms_undefined + syms_ok + syms_major + syms_minor), "yellow");
     write_type('Code', "code.bin", bytes_ok_str, "informational");
 
     if addrs_changed:
