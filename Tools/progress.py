@@ -37,7 +37,6 @@ def main():
                     addrs.remove(sym[1])
                     print("Unnamed function at " + "{:08x}".format(sym[1]) + " moved to " + sym[0])
                     addrs_changed = True
-                    syms_undefined -= 1
                     syms_total -= 1
                     if sym[2] == 'U':
                         syms_undefined += 1

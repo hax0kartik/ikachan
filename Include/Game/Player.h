@@ -31,3 +31,4 @@ struct MyChar
 #define MAX_LEVEL 7
 
 void InitMyChar();
+extern MyChar gMC;

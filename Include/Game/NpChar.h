@@ -1,12 +1,14 @@
 #pragma once
 #include "types.h"
 
+#define MAX_NPCS (100)
+
 struct NpChar{
     bool cond;
     u8 type;
     char code_char;
     u16 code_event;
-    u16 act_wait;
+    s16 act_wait;
     char act_no;
     char ani_no;
     short ani_wait;
