@@ -5,7 +5,7 @@
 struct Boss
 {
     bool cond;
-    u16 life;
+    s16 life;
     u16 shock;
     u8 x6;
     char code_char;

@@ -15,4 +15,5 @@ STUB(nninitStartUp)
 STUB(nninitSystem)
 STUB(_ZN2nn3srv6detail7Service16GetServiceHandleEPNS_6HandleEPKcij)
 
+STUB(_Z15PlaySoundObjectii)
 #undef STUB

@@ -18,3 +18,5 @@ enum WND_SIZE
 	WS_FULLSCREEN,
 	WS_320x240,
 };
+
+int Random(int min, int max);
