@@ -3,6 +3,7 @@
 
 struct Map
 {
+	u8 unk[260];
 	u8 *data;
 	u8 fx;
 	int width, length;
