@@ -5,14 +5,14 @@
 
 struct NpChar{
     bool cond;
-    u8 type;
+    char type;
     char code_char;
     u16 code_event;
     s16 act_wait;
     char act_no;
     char ani_no;
     short ani_wait;
-    char direct;
+    u8 direct;
     u8 flag;
     bool airborne;
     int x;

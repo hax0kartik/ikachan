@@ -83,6 +83,37 @@ void ActNpChar01(NpChar *npc)
     }
 }
 
+void ActNpChar03(NpChar *npc)
+{
+	//Fall and move
+	if (npc->ym < 0x800)
+		npc->ym += 20;
+	npc->y += npc->ym;
+	
+	//Animate
+	if (npc->act_no == 0)
+	{
+		if (npc->act_wait > 0)
+			npc->act_wait--;
+		if ((npc->x - 0x8000) < gMC.x && (npc->x + 0x8000) > gMC.x && (npc->y - 0x8000) < gMC.y && npc->y > gMC.y)
+		{
+            if (++npc->ani_wait > 2)
+		    {
+			    npc->ani_wait = 0;
+			    if (++npc->ani_no > 3)
+				    npc->ani_no = 3;
+                return;
+		    }
+		}
+		if (++npc->ani_wait > 5)
+		{
+			npc->ani_wait = 0;
+			if (--npc->ani_no < 0)
+				npc->ani_no = 0;
+		}
+	}
+}
+
 void ActNpChar05(NpChar *npc)
 {
     //Fall and move

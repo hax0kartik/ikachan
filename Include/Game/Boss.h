@@ -6,16 +6,16 @@ struct Boss
 {
     bool cond;
     s16 life;
-    u16 shock;
+    s16 shock;
     u8 x6;
     char code_char;
-    u16 code_event;
-    u16 defeat_event;
-    u16 act_wait;
+    s16 code_event;
+    s16 defeat_event;
+    s16 act_wait;
     char act_no;
     char ani_no;
-    u16 ani_wait;
-    char direct;
+    s16 ani_wait;
+    u8 direct;
     u8 flag;
     bool airborne;
     int x;

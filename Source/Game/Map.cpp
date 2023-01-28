@@ -8,9 +8,29 @@
 #define BACK_WIDTH (((SURFACE_WIDTH + 63) / 64) * 2 + 3)
 #define BACK_HEIGHT (((SURFACE_HEIGHT + 63) / 64) * 2 + 3)
 
+extern "C" void sub_127D94(u32*, float);
+extern u32 stereocamera;
+
+RECT rcBack[2] = {
+		{ 0, 0, 32, 32 },
+		{ 32, 0, 64, 32 },
+};
+
 void PutBack(Frame *frame)
 {
-	
+	RECT rcBacktmp[2];
+	sub_127D94(&stereocamera, 1.0f);
+	rcBacktmp[0] = rcBack[0];
+	rcBacktmp[1] = rcBack[1];
+	for (int i = 0; i < (BACK_WIDTH * BACK_HEIGHT); i++)
+	{
+		PutBitmap3(&grcFull, 
+			((i % BACK_WIDTH) * 32) - ((2 * (frame->x / 0x400)) / 3 % 64),
+			((i / BACK_WIDTH) * 32) - ((2 * (frame->y / 0x400)) / 3 % 64),
+			&rcBacktmp[i % 2],
+			SURFACE_ID_BACK, -1);
+	}
+	sub_127D94(&stereocamera, 0.0f);
 }
 
 #define MAP_WIDTH ((SURFACE_WIDTH + 15) / 16 + 1)
