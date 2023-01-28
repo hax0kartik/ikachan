@@ -28,7 +28,7 @@ os.chdir(getBuildPath())
 verbose = ''
 if len(sys.argv) >= 2 and sys.argv[1] == 'verbose':
     verbose = 'VERBOSE=1'
-result = subprocess.run(f'make -j {multiprocessing.cpu_count()} {verbose}', shell=True)
+result = subprocess.run(f'make {verbose}', shell=True)
 if result.returncode != 0:
     exit()
 

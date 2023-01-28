@@ -48,6 +48,11 @@ __compiler_armcc(ASM)
 
 file(GLOB_RECURSE csourcefiles "Source/*.c")
 file(GLOB_RECURSE cxxsourcefiles "Source/*.cpp")
+file(GLOB_RECURSE libpngfiles "External/libpng-1.0.2/*.c")
+file(GLOB zlibfiles "External/zlib-1.1.4/*.c")
+
+add_library(zlib STATIC ${zlibfiles})
+add_library(libpng STATIC ${libpngfiles})
 
 add_executable(ikachan3 ${csourcefiles} ${cxxsourcefiles})
 
@@ -69,9 +74,17 @@ target_compile_options(ikachan3 PUBLIC $<$<COMPILE_LANGUAGE:CXX>:
 target_compile_options(ikachan3 PUBLIC $<$<COMPILE_LANGUAGE:C>:
     --apcs=//interwork --cpu=MPCore --fpmode=fast --c99 --arm
     --signed_chars --multibyte-chars --locale=japanese
-    -O3 --data-reorder --split_sections
+    -Otime -O3 --data-reorder --split_sections
+    >)
+
+target_compile_options(libpng PUBLIC $<$<COMPILE_LANGUAGE:C>:
+    --apcs=//interwork --cpu=MPCore --fpmode=fast --c99 --arm
+    --signed_chars --multibyte-chars --locale=japanese
+    -Otime -O3
     >)
 
 target_compile_definitions(ikachan3 PUBLIC NON_MATCHING=)
 
-target_include_directories(ikachan3 PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(ikachan3 PUBLIC ${CMAKE_SOURCE_DIR}/include External/libpng-1.0.2/)
+target_include_directories(libpng PUBLIC External/zlib-1.1.4/)
+target_link_libraries(ikachan3 libpng zlib)
