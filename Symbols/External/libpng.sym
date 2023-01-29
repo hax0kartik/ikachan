@@ -27,5 +27,11 @@ png_zalloc,00146000,60,O
 png_build_gamma_table,00142a30,1128,m
 png_do_gamma,00143558,1124,O
 png_get_gAMA,00144004,56,O
-png_handle_gAMA,00144228,474,m
+png_handle_gAMA,00144228,474,O
 png_handle_unknown,00144404,240,m
+png_set_PLTE,00145d88,36,O
+png_set_gAMA,00145dbc,36,O
+png_set_interlace_handling,00145de0,36,O
+png_do_strip_filler,00143b50,932,O
+png_read_image,00145304,100,O
+png_set_gamma,0011e858,80,m
