@@ -25,3 +25,7 @@ png_set_error_fn,00145dac,16,O
 png_set_sig_bytes,00145e90,76,O
 png_zalloc,00146000,60,O
 png_build_gamma_table,00142a30,1128,m
+png_do_gamma,00143558,1124,O
+png_get_gAMA,00144004,56,O
+png_handle_gAMA,00144228,474,m
+png_handle_unknown,00144404,240,m

@@ -71,7 +71,7 @@ target_compile_options(ikachan3 PUBLIC $<$<COMPILE_LANGUAGE:CXX>:
 target_compile_options(ikachan3 PUBLIC $<$<COMPILE_LANGUAGE:C>:
     --apcs=//interwork --cpu=MPCore --fpmode=fast --c99 --arm
     --signed_chars --multibyte-chars --locale=japanese
-    -Otime -O3 --data-reorder --split_sections
+    -Otime -O3 --data-reorder --split_sections --diag_suppress=1294
     >)
 
 target_compile_definitions(ikachan3 PUBLIC NON_MATCHING=)
