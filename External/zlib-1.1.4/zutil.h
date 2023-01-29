@@ -219,4 +219,6 @@ void   zcfree  OF((voidpf opaque, voidpf ptr));
 #define ZFREE(strm, addr)  (*((strm)->zfree))((strm)->opaque, (voidpf)(addr))
 #define TRY_FREE(s, p) {if (p) ZFREE(s, p);}
 
+#define split(S) __attribute__((section("i." #S))) S
+
 #endif /* _Z_UTIL_H */
