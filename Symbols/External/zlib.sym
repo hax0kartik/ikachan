@@ -5,8 +5,11 @@ inflate_flush,0011fabc,312,O
 inflate_fast,001383b0,1328,O
 inflate_trees_bits,001397bc,260,O
 adler32,00142498,464,O
+inflateReset,0011c390,88,O
 inflateEnd,001426f8,76,O
 inflate_blocks_new,001396d8,228,O
 inflate_blocks_free,0011e138,188,O
 inflate_blocks_reset,0011e1f4,148,O
 inflate_blocks,001388e0,3544,O
+inflate_codes,0011f2e8,2000,O
+crc32,0011d4a0,404,O
