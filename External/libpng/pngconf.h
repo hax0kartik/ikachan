@@ -363,7 +363,7 @@ __dont__ include it again
 #endif
 
 #ifndef PNG_NO_WRITE_FLUSH
-#define PNG_WRITE_FLUSH_SUPPORTED
+//#define PNG_WRITE_FLUSH_SUPPORTED
 #endif
 
 #ifndef PNG_NO_STDIO

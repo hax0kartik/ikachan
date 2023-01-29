@@ -24,3 +24,4 @@ png_read_info,00145368,612,M
 png_set_error_fn,00145dac,16,O
 png_set_sig_bytes,00145e90,76,O
 png_zalloc,00146000,60,O
+png_build_gamma_table,00142a30,1128,m
