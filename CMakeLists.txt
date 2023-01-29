@@ -17,6 +17,8 @@ find_program(ARM_CC NAMES armcc.exe PATHS $ENV{ARMCC_PATH}/bin REQUIRED NO_DEFAU
 find_program(ARM_LINK NAMES armlink.exe PATHS $ENV{ARMCC_PATH}/bin REQUIRED NO_DEFAULT_PATH)
 # find_program(ARM_FROMELF NAMES fromelf.exe PATHS $ENV{ARMCC_PATH}/bin REQUIRED NO_DEFAULT_PATH) # not important
 
+add_subdirectory(External/nnsdk)
+
 macro (set_compilers)
     set(CMAKE_CXX_COMPILER_ID ARMCC)
 
@@ -80,11 +82,11 @@ target_compile_options(ikachan3 PUBLIC $<$<COMPILE_LANGUAGE:C>:
 target_compile_options(libpng PUBLIC $<$<COMPILE_LANGUAGE:C>:
     --apcs=//interwork --cpu=MPCore --fpmode=fast --c99 --arm
     --signed_chars --multibyte-chars --locale=japanese
-    -Otime -O3
+    -Otime -O3 --split_sections
     >)
 
 target_compile_definitions(ikachan3 PUBLIC NON_MATCHING=)
 
-target_include_directories(ikachan3 PUBLIC ${CMAKE_SOURCE_DIR}/include External/libpng-1.0.2/)
+target_include_directories(ikachan3 PUBLIC ${CMAKE_SOURCE_DIR}/include External/libpng-1.0.2 External/nnsdk/include)
 target_include_directories(libpng PUBLIC External/zlib-1.1.4/)
-target_link_libraries(ikachan3 libpng zlib)
+target_link_libraries(ikachan3 nnsdk libpng zlib)
