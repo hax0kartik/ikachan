@@ -277,7 +277,7 @@ __dont__ include it again
 #define PNG_READ_DITHER_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_BACKGROUND
-#define PNG_READ_BACKGROUND_SUPPORTED
+//#define PNG_READ_BACKGROUND_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_16_TO_8
 #define PNG_READ_16_TO_8_SUPPORTED
@@ -427,40 +427,40 @@ __dont__ include it again
 
 #ifdef PNG_READ_ANCILLARY_CHUNKS_SUPPORTED
 #ifndef PNG_NO_READ_bKGD
-#define PNG_READ_bKGD_SUPPORTED
+//#define PNG_READ_bKGD_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_cHRM
-#define PNG_READ_cHRM_SUPPORTED
+//#define PNG_READ_cHRM_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_gAMA
 #define PNG_READ_gAMA_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_hIST
-#define PNG_READ_hIST_SUPPORTED
+//#define PNG_READ_hIST_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_oFFs
-#define PNG_READ_oFFs_SUPPORTED
+//#define PNG_READ_oFFs_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_pCAL
-#define PNG_READ_pCAL_SUPPORTED
+//#define PNG_READ_pCAL_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_pHYs
-#define PNG_READ_pHYs_SUPPORTED
+//#define PNG_READ_pHYs_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_sBIT
-#define PNG_READ_sBIT_SUPPORTED
+//#define PNG_READ_sBIT_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_sRGB
-#define PNG_READ_sRGB_SUPPORTED
+//#define PNG_READ_sRGB_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_tEXt
-#define PNG_READ_tEXt_SUPPORTED
+//#define PNG_READ_tEXt_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_tIME
-#define PNG_READ_tIME_SUPPORTED
+//#define PNG_READ_tIME_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_tRNS
-#define PNG_READ_tRNS_SUPPORTED
+//#define PNG_READ_tRNS_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_zTXt
 #define PNG_READ_zTXt_SUPPORTED
