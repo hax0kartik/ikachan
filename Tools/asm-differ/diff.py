@@ -3042,7 +3042,7 @@ def align_diffs(
         meta = TableMetadata(
             headers=(
                 Text("TARGET"),
-                Text(f"{padding}CURRENT ({new_diff.score})"),
+                Text(f"{padding}CURRENT (Score:{new_diff.score} Size:{len(new_diff.lines * 4)})"),
             ),
             current_score=new_diff.score,
             max_score=new_diff.max_score,
