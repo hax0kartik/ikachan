@@ -35,3 +35,4 @@ png_set_interlace_handling,00145de0,36,O
 png_do_strip_filler,00143b50,932,O
 png_read_image,00145304,100,O
 png_set_gamma,0011e858,80,O
+png_get_rowbytes,0011e844,20,O
