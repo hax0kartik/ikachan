@@ -36,3 +36,7 @@ png_do_strip_filler,00143b50,932,O
 png_read_image,00145304,100,O
 png_set_gamma,0011e858,80,O
 png_get_rowbytes,0011e844,20,O
+png_handle_zTXt,001444f4,988,O
+png_init_read_transformations,001448d0,136,O
+png_read_update_info,00145b50,40,O
+png_read_transform_info,00145b7c,252,O

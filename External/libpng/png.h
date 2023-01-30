@@ -2128,6 +2128,9 @@ PNG_EXTERN void png_push_read_zTXt PNGARG((png_structp png_ptr,
 
 #endif /* PNG_PROGRESSIVE_READ_SUPPORTED */
 
+/* For decomp */
+#define split(S) __attribute__((section("i." #S))) S
+
 #endif /* PNG_INTERNAL */
 
 #ifdef __cplusplus

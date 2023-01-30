@@ -1253,7 +1253,7 @@ png_handle_tEXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 void
 png_handle_zTXt(png_structp png_ptr, png_infop info_ptr, png_uint_32 length)
 {
-   static char msg[] = "Error decoding zTXt chunk";
+   static char split(msg)[] = "Error decoding zTXt chunk";
    png_textp text_ptr;
    png_charp key;
    png_charp text;
