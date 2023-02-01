@@ -3,4 +3,4 @@
 	url = https://github.com/fruityloops1/asm-differ
 [submodule "External/nnsdk"]
 	path = External/nnsdk
-	url = https://github.com/3dsdecomp/nnsdk
+	url = https://github.com/hax0kartik/nnsdk.git
