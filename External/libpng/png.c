@@ -11,50 +11,50 @@
 #define PNG_INTERNAL
 #define PNG_NO_EXTERN
 #include "png.h"
-
 /* Version information for C files.  This had better match the version
  * string defined in png.h.
  */
-char png_libpng_ver[12] = "1.0.2";
+char split(png_libpng_ver)[12] = "1.0.2";
 
 /* Place to hold the signature string for a PNG file. */
-png_byte FARDATA png_sig[8] = {137, 80, 78, 71, 13, 10, 26, 10};
+png_byte FARDATA split(png_sig)[8] = {137, 80, 78, 71, 13, 10, 26, 10};
 
 /* Constant strings for known chunk types.  If you need to add a chunk,
  * add a string holding the name here.  If you want to make the code
  * portable to EBCDIC machines, use ASCII numbers, not characters.
  */
-png_byte FARDATA png_IHDR[5] = { 73,  72,  68,  82, '\0'};
-png_byte FARDATA png_IDAT[5] = { 73,  68,  65,  84, '\0'};
-png_byte FARDATA png_IEND[5] = { 73,  69,  78,  68, '\0'};
-png_byte FARDATA png_PLTE[5] = { 80,  76,  84,  69, '\0'};
-png_byte FARDATA png_bKGD[5] = { 98,  75,  71,  68, '\0'};
-png_byte FARDATA png_cHRM[5] = { 99,  72,  82,  77, '\0'};
-png_byte FARDATA png_gAMA[5] = {103,  65,  77,  65, '\0'};
-png_byte FARDATA png_hIST[5] = {104,  73,  83,  84, '\0'};
-png_byte FARDATA png_oFFs[5] = {111,  70,  70, 115, '\0'};
-png_byte FARDATA png_pCAL[5] = {112,  67,  65,  76, '\0'};
-png_byte FARDATA png_pHYs[5] = {112,  72,  89, 115, '\0'};
-png_byte FARDATA png_sBIT[5] = {115,  66,  73,  84, '\0'};
-png_byte FARDATA png_sRGB[5] = {115,  82,  71,  66, '\0'};
-png_byte FARDATA png_tEXt[5] = {116,  69,  88, 116, '\0'};
-png_byte FARDATA png_tIME[5] = {116,  73,  77,  69, '\0'};
-png_byte FARDATA png_tRNS[5] = {116,  82,  78,  83, '\0'};
-png_byte FARDATA png_zTXt[5] = {122,  84,  88, 116, '\0'};
+
+png_byte FARDATA split(png_IHDR)[5] = { 73,  72,  68,  82, '\0'};
+png_byte FARDATA split(png_IDAT)[5] = { 73,  68,  65,  84, '\0'};
+png_byte FARDATA split(png_IEND)[5] = { 73,  69,  78,  68, '\0'};
+png_byte FARDATA split(png_PLTE)[5] = { 80,  76,  84,  69, '\0'};
+//png_byte FARDATA split(png_bKGD)[5] = { 98,  75,  71,  68, '\0'};
+//png_byte FARDATA split(png_cHRM)[5] = { 99,  72,  82,  77, '\0'};
+png_byte FARDATA split(png_gAMA)[5] = {103,  65,  77,  65, '\0'};
+png_byte FARDATA split(png_hIST)[5] = {104,  73,  83,  84, '\0'};
+png_byte FARDATA split(png_oFFs)[5] = {111,  70,  70, 115, '\0'};
+png_byte FARDATA split(png_pCAL)[5] = {112,  67,  65,  76, '\0'};
+png_byte FARDATA split(png_pHYs)[5] = {112,  72,  89, 115, '\0'};
+png_byte FARDATA split(png_sBIT)[5] = {115,  66,  73,  84, '\0'};
+png_byte FARDATA split(png_sRGB)[5] = {115,  82,  71,  66, '\0'};
+png_byte FARDATA split(png_tEXt)[5] = {116,  69,  88, 116, '\0'};
+png_byte FARDATA split(png_tIME)[5] = {116,  73,  77,  69, '\0'};
+png_byte FARDATA split(png_tRNS)[5] = {116,  82,  78,  83, '\0'};
+png_byte FARDATA split(png_zTXt)[5] = {122,  84,  88, 116, '\0'};
 
 /* arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
 /* start of interlace block */
-int FARDATA png_pass_start[] = {0, 4, 0, 2, 0, 1, 0};
+int FARDATA split(png_pass_start)[] = {0, 4, 0, 2, 0, 1, 0};
 
 /* offset to next interlace block */
-int FARDATA png_pass_inc[] = {8, 8, 4, 4, 2, 2, 1};
+int FARDATA split(png_pass_inc)[] = {8, 8, 4, 4, 2, 2, 1};
 
 /* start of interlace block in the y direction */
-int FARDATA png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
+int FARDATA split(png_pass_ystart)[] = {0, 0, 4, 0, 2, 0, 1};
 
 /* offset to next interlace block in the y direction */
-int FARDATA png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
+int FARDATA split(png_pass_yinc)[] = {8, 8, 8, 4, 4, 2, 2};
 
 /* Width of interlace block.  This is not currently used - if you need
  * it, uncomment it here and in png.h
@@ -67,10 +67,10 @@ int FARDATA png_pass_height[] = {8, 8, 4, 4, 2, 2, 1};
 */
 
 /* Mask to determine which pixels are valid in a pass */
-int FARDATA png_pass_mask[] = {0x80, 0x08, 0x88, 0x22, 0xaa, 0x55, 0xff};
+int FARDATA split(png_pass_mask)[] = {0x80, 0x08, 0x88, 0x22, 0xaa, 0x55, 0xff};
 
 /* Mask to determine which pixels to overwrite while displaying */
-int FARDATA png_pass_dsp_mask[] = {0xff, 0x0f, 0xff, 0x33, 0xff, 0x55, 0xff};
+int FARDATA split(png_pass_dsp_mask)[] = {0xff, 0x0f, 0xff, 0x33, 0xff, 0x55, 0xff};
 
 
 /* Tells libpng that we have already handled the first "num_bytes" bytes

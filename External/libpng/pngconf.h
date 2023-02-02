@@ -315,7 +315,7 @@ __dont__ include it again
 #define PNG_PROGRESSIVE_READ_SUPPORTED       /* reading.  This is not talking */
 #endif                               /* about interlacing capability!  You'll */
               /* still have interlacing unless you change the following line: */
-#define PNG_READ_INTERLACING_SUPPORTED /* required for PNG-compliant decoders */
+//#define PNG_READ_INTERLACING_SUPPORTED /* required for PNG-compliant decoders */
 
 #ifndef PNG_NO_READ_COMPOSITED_NODIV
 #define PNG_READ_COMPOSITE_NODIV_SUPPORTED    /* well tested on Intel and SGI */
@@ -323,10 +323,10 @@ __dont__ include it again
 
 #ifdef PNG_WRITE_TRANSFORMS_SUPPORTED
 #ifndef PNG_NO_WRITE_SHIFT
-#define PNG_WRITE_SHIFT_SUPPORTED
+//#define PNG_WRITE_SHIFT_SUPPORTED
 #endif
 #ifndef PNG_NO_WRITE_PACK
-#define PNG_WRITE_PACK_SUPPORTED
+//#define PNG_WRITE_PACK_SUPPORTED
 #endif
 #ifndef PNG_NO_WRITE_BGR
 #define PNG_WRITE_BGR_SUPPORTED
@@ -341,7 +341,7 @@ __dont__ include it again
 #define PNG_WRITE_INVERT_SUPPORTED
 #endif
 #ifndef PNG_NO_WRITE_FILLER
-#define PNG_WRITE_FILLER_SUPPORTED  /* This is the same as WRITE_STRIP_ALPHA */
+//#define PNG_WRITE_FILLER_SUPPORTED  /* This is the same as WRITE_STRIP_ALPHA */
 #endif
 #ifndef PNG_NO_WRITE_SWAP_ALPHA
 #define PNG_WRITE_SWAP_ALPHA_SUPPORTED
@@ -472,10 +472,10 @@ __dont__ include it again
 
 #ifdef PNG_WRITE_ANCILLARY_CHUNKS_SUPPORTED
 #ifndef PNG_NO_WRITE_bKGD
-#define PNG_WRITE_bKGD_SUPPORTED
+//#define PNG_WRITE_bKGD_SUPPORTED
 #endif
 #ifndef PNG_NO_WRITE_cHRM
-#define PNG_WRITE_cHRM_SUPPORTED
+//#define PNG_WRITE_cHRM_SUPPORTED
 #endif
 #ifndef PNG_NO_WRITE_gAMA
 #define PNG_WRITE_gAMA_SUPPORTED
