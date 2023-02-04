@@ -23,7 +23,6 @@ png_byte FARDATA split(png_sig)[8] = {137, 80, 78, 71, 13, 10, 26, 10};
  * add a string holding the name here.  If you want to make the code
  * portable to EBCDIC machines, use ASCII numbers, not characters.
  */
-
 png_byte FARDATA split(png_IHDR)[5] = { 73,  72,  68,  82, '\0'};
 png_byte FARDATA split(png_IDAT)[5] = { 73,  68,  65,  84, '\0'};
 png_byte FARDATA split(png_IEND)[5] = { 73,  69,  78,  68, '\0'};

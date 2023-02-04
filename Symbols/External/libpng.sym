@@ -42,4 +42,8 @@ png_read_update_info,00145b50,40,O
 png_read_transform_info,00145b7c,252,O
 png_set_IHDR,00145c7c,268,O
 png_read_filter_row,00144c94,776,O
-png_read_row,00145654,740,m
+png_read_row,00145654,740,M
+png_read_destroy,00144958,308,m
+png_do_read_transformations,001439bc,404,O
+png_combine_row,0011bb18,968,O
+png_do_expand,0011cd00,1408,O

@@ -262,16 +262,16 @@ __dont__ include it again
 //#define PNG_READ_PACK_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_BGR
-#define PNG_READ_BGR_SUPPORTED
+//#define PNG_READ_BGR_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_SWAP
-#define PNG_READ_SWAP_SUPPORTED
+//#define PNG_READ_SWAP_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_PACKSWAP
-#define PNG_READ_PACKSWAP_SUPPORTED
+//#define PNG_READ_PACKSWAP_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_INVERT
-#define PNG_READ_INVERT_SUPPORTED
+//#define PNG_READ_INVERT_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_DITHER
 //#define PNG_READ_DITHER_SUPPORTED
@@ -292,10 +292,10 @@ __dont__ include it again
 #define PNG_READ_GRAY_TO_RGB_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_SWAP_ALPHA
-#define PNG_READ_SWAP_ALPHA_SUPPORTED
+//#define PNG_READ_SWAP_ALPHA_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_INVERT_ALPHA
-#define PNG_READ_INVERT_ALPHA_SUPPORTED
+//#define PNG_READ_INVERT_ALPHA_SUPPORTED
 #endif
 #ifndef PNG_NO_READ_STRIP_ALPHA
 #define PNG_READ_STRIP_ALPHA_SUPPORTED
@@ -312,7 +312,7 @@ __dont__ include it again
 
 #if !defined(PNG_NO_PROGRESSIVE_READ) && \
  !defined(PNG_PROGRESSIVE_READ_NOT_SUPPORTED) /* if you don't do progressive   */
-#define PNG_PROGRESSIVE_READ_SUPPORTED       /* reading.  This is not talking */
+//#define PNG_PROGRESSIVE_READ_SUPPORTED       /* reading.  This is not talking */
 #endif                               /* about interlacing capability!  You'll */
               /* still have interlacing unless you change the following line: */
 //#define PNG_READ_INTERLACING_SUPPORTED /* required for PNG-compliant decoders */
