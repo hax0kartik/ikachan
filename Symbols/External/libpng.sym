@@ -47,3 +47,7 @@ png_read_destroy,00144958,308,m
 png_do_read_transformations,001439bc,404,O
 png_combine_row,0011bb18,968,O
 png_do_expand,0011cd00,1408,O
+png_set_read_fn,00145e04,140,m
+png_reset_crc,0011c34c,32,O
+png_read_finish_row,00144f9c,872,m
+png_read_start_row,00145938,516,O

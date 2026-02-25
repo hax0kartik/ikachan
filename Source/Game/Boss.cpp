@@ -1,4 +1,5 @@
 #include "Game/Boss.h"
+#include "Game/EventScript.h"
 #include "Game/Effect.h"
 #include "Game/Sound.h"
 #include "Game/Player.h"
@@ -132,4 +133,132 @@ void DamageBoss(CaretSpawner *caretSpawner, char damage)
 
         PlaySoundObject(16, 1);
     }
+}
+
+void HitMyCharBoss(EventScr *event_scr, CaretSpawner *caret_spawner)
+{
+	char flag = 0;
+	char touch = false; //???
+	
+	if (gBoss.cond == false)
+		return;
+	
+	//Check if Ikachan is touching Iron Head
+	if (gMC.x < (gBoss.x + gBoss.hit.right) &&
+		gMC.x > (gBoss.x + gBoss.hit.right - 0x1400) &&
+		gMC.y < (gBoss.y + gBoss.hit.bottom - 0x1000) &&
+		(gMC.y + 0x4000) > (gBoss.y + gBoss.hit.top + 0x1000))
+	{
+		gMC.x = gBoss.x + gBoss.hit.right;
+		gMC.xm = 0;
+		flag |= 1;
+		touch = true;
+	}
+	if (gMC.y < (gBoss.y + gBoss.hit.bottom) &&
+		gMC.y > (gBoss.y + gBoss.hit.bottom - 0x1400) &&
+		gMC.x < (gBoss.x + gBoss.hit.right - 0x1000) &&
+		(gMC.x + 0x4000) > (gBoss.x + gBoss.hit.left + 0x1000))
+	{
+		if (gMC.ym < -100)
+			PlaySoundObject(4, 1);
+		gMC.y = gBoss.y + gBoss.hit.bottom;
+		gMC.ym = 0;
+		flag |= 2;
+		touch = true;
+	}
+	if ((gMC.x + 0x4000) > (gBoss.x + gBoss.hit.left) &&
+		(gMC.x + 0x4000) < (gBoss.x + gBoss.hit.left + 0x1400) &&
+		gMC.y < (gBoss.y + gBoss.hit.bottom - 0x1000) &&
+		(gMC.y + 0x4000) > (gBoss.y + gBoss.hit.top + 0x1000))
+	{
+		gMC.x = gBoss.x + gBoss.hit.left - 0x4000;
+		gMC.xm = 0;
+		flag |= 4;
+		touch = true;
+	}
+	if ((gMC.y + 0x4000) > (gBoss.y + gBoss.hit.top) &&
+		(gMC.y + 0x4000) < (gBoss.y + gBoss.hit.top + 0x1400) &&
+		gMC.x < (gBoss.x + gBoss.hit.right - 0x1000) &&
+		(gMC.x + 0x4000) > (gBoss.x + gBoss.hit.left + 0x1000))
+	{
+		gMC.airborne = false;
+		gMC.y = gBoss.y + gBoss.hit.top - 0x4000;
+		if (gMC.ym > 0)
+			gMC.ym = 0;
+		flag |= 8;
+		touch = true;
+	}
+	
+	if (touch)
+	{
+		//Handle interaction
+		switch (gBoss.act_no)
+		{
+			case 0:
+				if (gMC.no_event == 0)
+				{
+					event_scr->mode = 1;
+					event_scr->x1C = 4;
+					event_scr->event_no = gBoss.code_event;
+					gMC.no_event = 100;
+				}
+				break;
+			case 1:
+				//Damage Iron Head with either 1 damage or 3 if dashing
+				if (gBoss.shock == 0)
+				{
+					if (flag & 2)
+					{
+						gBoss.ym = -0x400;
+						gMC.ym = 0x400;
+						if (gMC.unit == 1)
+							DamageBoss(caret_spawner, 3);
+						else
+							DamageBoss(caret_spawner, 1);
+					}
+					else if (gMC.unit == 1)
+					{
+						if (gMC.direct == 0)
+							gBoss.xm = -0x400;
+						if (gMC.direct == 1)
+							gBoss.xm = 0x400;
+						DamageBoss(caret_spawner, 3);
+					}
+				}
+				break;
+			case 2:
+				//Damage Iron Head if hit from below or Ikachan
+				if (flag & 2)
+				{
+					gBoss.ym = -0x400;
+					gMC.ym = 0x400;
+					if (gMC.unit == 1)
+						DamageBoss(caret_spawner, 3);
+					else
+						DamageBoss(caret_spawner, 1);
+				}
+				else if (gMC.shock == 0)
+				{
+					if (gMC.x < gBoss.x + 0x6000)
+						gMC.xm = -0x400;
+					if (gMC.x > gBoss.x + 0x6000)
+						gMC.xm = 0x400;
+					DamageMyChar(caret_spawner, 3);
+				}
+				break;
+		}
+		
+		//Check if Iron Head's been defeated
+		if (gBoss.act_no != 0 && gBoss.life == 0)
+		{
+			event_scr->mode = 1;
+			event_scr->x1C = 4;
+			event_scr->event_no = gBoss.defeat_event;
+			gMC.no_event = 100;
+			gBoss.act_no = 0;
+			gBoss.shock = 0;
+			gBoss.xm = 0;
+			gBoss.ym = 0;
+		}
+	}
 }

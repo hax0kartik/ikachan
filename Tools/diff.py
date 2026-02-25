@@ -11,7 +11,7 @@ def fail(msg: str):
 
 elf_exists = os.path.exists(getElfPath())
 if elf_exists:
-    readelf_data = str(subprocess.check_output(f"{os.environ.get('DEVKITARM')}/bin/arm-none-eabi-readelf {getElfPath()} -sw -W", shell=True))
+    readelf_data = str(subprocess.check_output(f"arm-none-eabi-readelf {getElfPath()} -sw -W", shell=True))
     if sys.platform == 'win32':
         readelf_data = readelf_data.replace(r'\r\n', '\n')
     else:
@@ -20,7 +20,7 @@ def get_elf_symbol(sym_name: str):
     if not elf_exists:
         fail(f"{getElfPath()} not found")
     # find Stubs.c range (horrible)
-    with open(f"{getBuildPath()}/ikachan3.map") as f:
+    with open(f"{getBuildPath()}/ikachan3.axf.map") as f:
         s = StringIO(f.read())
         for line in s:
             if len(line.split()) == 6 and line.split()[5] == 'Stubs.o(stubs)':

@@ -1,5 +1,4 @@
 inflate,0011c3e8,1448,O
-inflate_codes_free,0011f288,20,O
 inflate_codes_new,0011f29c,76,O
 inflate_flush,0011fabc,312,O
 inflate_fast,001383b0,1328,O
@@ -13,3 +12,4 @@ inflate_blocks_reset,0011e1f4,148,O
 inflate_blocks,001388e0,3544,O
 inflate_codes,0011f2e8,2000,O
 crc32,0011d4a0,404,O
+huft_build,0011ebd0,1728,m

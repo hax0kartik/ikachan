@@ -1,6 +1,7 @@
 #include "Game/Player.h"
 #include "Game/Effect.h"
 #include "Game/System.h"
+#include "Game/Sound.h"
 
 MyChar gMC;
 u16 gMycLife[MAX_LEVEL + 1] = { 8, 12, 16, 20, 24, 28, 32 };
@@ -32,6 +33,65 @@ void InitMyChar()
     gMC.carry = 0;
 }
 
+void DamageMyChar(CaretSpawner *caret_spawner, char damage)
+{
+	//Check if we're invulnerable
+	if (gMC.shock == 0)
+	{
+		//Take damage
+		gMC.shock = 100;
+		gMC.life -= damage;
+		if (gMC.life < 0)
+			gMC.life = 0;
+		
+		//Show us how much damage we took
+		int damage_i = FindCaretSpawner(caret_spawner);
+		if (damage_i != NO_CARET)
+		{
+			CaretSpawner *caretsp = &caret_spawner[damage_i];
+			caretsp->cond = true;
+			caretsp->type = 2;
+			caretsp->ani_no = 10 - damage;
+			caretsp->num = 1;
+			caretsp->x = gMC.x + 0x2000;
+			caretsp->y = gMC.y - 0x1000;
+			caretsp->rand_x = 1;
+			caretsp->rand_y = 0;
+		}
+		
+		if (gMC.life != 0)
+		{
+			//Play hurt sound
+			PlaySoundObject(2, 1);
+		}
+		else
+		{
+			//Die
+			PlaySoundObject(9, 1);
+			gMC.cond = false;
+			gMC.dead = true;
+			
+			//Create death effect
+			int dead_i = FindCaretSpawner(caret_spawner);
+			if (dead_i != NO_CARET)
+			{
+				CaretSpawner *caretsp = &caret_spawner[dead_i];
+				caretsp->cond = true;
+				caretsp->type = 0;
+				caretsp->ani_no = 0;
+				caretsp->num = 30;
+				caretsp->x = gMC.x + 0x2000;
+				caretsp->y = gMC.y + 0x2000;
+				caretsp->rand_moveright = 0xC00;
+				caretsp->rand_moveleft = -0xC00;
+				caretsp->rand_movedown = 0x200;
+				caretsp->rand_moveup = -0xC00;
+				caretsp->rand_x = 1;
+				caretsp->rand_y = 0;
+			}
+		}
+	}
+}
 
 int dashXm[3] = { -0xC00, 0xC00, 0 };
 int dashYm[3] = { 0, 0, -0xC00 };

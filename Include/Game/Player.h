@@ -30,5 +30,8 @@ struct MyChar
 
 #define MAX_LEVEL 7
 
+struct CaretSpawner;
+
 void InitMyChar();
+void DamageMyChar(CaretSpawner *caret_spawner, char damage);
 extern MyChar gMC;

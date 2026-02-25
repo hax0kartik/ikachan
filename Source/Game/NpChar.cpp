@@ -83,6 +83,92 @@ void ActNpChar01(NpChar *npc)
     }
 }
 
+void ActNpChar02(NpChar *npc)
+{
+	if (npc->act_no == 0) {
+		//Turn around if too far from home
+		if (npc->x < npc->tgt_x - 0x10000)
+			npc->direct = 1;
+		if (npc->x > npc->tgt_x + 0x10000)
+			npc->direct = 0;
+		
+		//Move in facing direction
+		if (npc->direct == 0 && npc->xm > -0x200 )
+			npc->xm -= 16;
+		if (npc->direct == 1 && npc->xm < 0x200 )
+			npc->xm += 16;
+		
+		//Jump after we've been on the ground for 80 frames
+		if (npc->airborne == false)
+			npc->act_wait++;
+		
+		if (npc->act_wait > 80)
+		{
+			npc->act_wait = 0;
+			if (npc->type == 2 && (gMC.equip & 4) == 0)
+			{
+				//Attacking jump
+				npc->ym = -1536;
+				npc->act_no = 1;
+
+			}
+			else
+			{
+				//Jump
+				npc->ym = -1024;
+			}
+		}
+		
+		//Animate
+		if (++npc->ani_wait > 10)
+		{
+			npc->ani_wait = 0;
+			if (++npc->ani_no > 1)
+				npc->ani_no = 0;
+		}
+		
+		//Fall and move
+		if (npc->ym < 0x800)
+			npc->ym += 20;
+		npc->x += npc->xm;
+		npc->y += npc->ym;
+		
+		//Do falling animation if airborne
+		if (npc->airborne == true)
+			npc->ani_no = 2;
+	} else if (npc->act_no == 1) {
+		//Animate
+		if (++npc->ani_wait > 2)
+		{
+			npc->ani_wait = 0;
+			if (++npc->ani_no > 3)
+				npc->ani_no = 2;
+		}
+		
+		//Turn around if too far from home
+		if (npc->x < npc->tgt_x - 0x10000)
+			npc->direct = 1;
+		if (npc->x > npc->tgt_x + 0x10000)
+			npc->direct = 0;
+		
+		//Move in facing direction
+		if (npc->direct == 0 && npc->xm > -0x200 )
+			npc->xm -= 16;
+		if (npc->direct == 1 && npc->xm < 0x200 )
+			npc->xm += 16;
+		
+		//Fall and move
+		if (npc->ym < 0x800)
+			npc->ym += 20;
+		npc->x += npc->xm;
+		npc->y += npc->ym;
+		
+		//Stop attacking once moving down
+		if (npc->ym > 0)
+			npc->act_no = 0;
+	}
+}
+
 void ActNpChar03(NpChar *npc)
 {
 	//Fall and move
@@ -114,6 +200,40 @@ void ActNpChar03(NpChar *npc)
 	}
 }
 
+void ActNpChar04(NpChar *npc)
+{
+	//Move towards Ikachan
+	if (npc->x > gMC.x)
+		npc->xm -= 24;
+	if (npc->x < gMC.x)
+		npc->xm += 24;
+	if (npc->y > gMC.y)
+		npc->ym -= 16;
+	if (npc->y < gMC.y)
+		npc->ym += 16;
+	
+	//Face towards Ikachan
+	if (npc->x > gMC.x)
+		npc->direct = 0;
+	if (npc->x < gMC.x)
+		npc->direct = 1;
+	if ((npc->x - 0x8000) < gMC.x && (npc->x + 0x8000) > gMC.x && (npc->y - 0x8000) < gMC.y && (npc->y + 0x8000) > gMC.y)
+		npc->direct = 2;
+	npc->act_no = (npc->y + 0x2000) > gMC.y;
+	
+	//Animate
+	if (++npc->ani_wait > 8)
+	{
+		npc->ani_wait = 0;
+		if (++npc->ani_no > 1)
+			npc->ani_no = 0;
+	}
+	
+	//Move
+	npc->x += npc->xm;
+	npc->y += npc->ym;
+}
+
 void ActNpChar05(NpChar *npc)
 {
     //Fall and move
@@ -122,11 +242,60 @@ void ActNpChar05(NpChar *npc)
     npc->y += npc->ym;
 }
 
+void ActNpChar06(NpChar *npc)
+{
+	if (npc->act_no == 0)
+	{
+		//Move towards target
+		if (npc->x > npc->tgt_x)
+			npc->xm -= 12;
+		if (npc->x < npc->tgt_x)
+			npc->xm += 12;
+		if (npc->y > npc->tgt_y)
+			npc->ym -= 8;
+		if (npc->y < npc->tgt_y)
+			npc->ym += 8;
+		
+		//Face in moving direction
+		if (npc->xm < 0)
+			npc->direct = 0;
+		if (npc->xm > 0)
+			npc->direct = 1;
+		
+		//Animate
+		if (++npc->ani_wait > 30)
+		{
+			npc->ani_wait = 0;
+			if (++npc->ani_no > 1)
+				npc->ani_no = 0;
+		}
+		
+		//Limit speed
+		if (npc->xm > 0x800)
+			npc->xm = 0x800;
+		if (npc->xm < -0x800)
+			npc->xm = -0x800;
+		if (npc->ym > 0x800)
+			npc->ym = 0x800;
+		if (npc->ym < -0x800)
+			npc->ym = -0x800;
+		
+		//Move
+		npc->x += npc->xm;
+		npc->y += npc->ym;
+	}
+}
+
 typedef void (*NPCACT)(NpChar*);
 NPCACT gpNpcActTbl[] = {
     ActNpChar01,
+    ActNpChar02,
+    ActNpChar03,
+    ActNpChar04,
+    ActNpChar04,
     ActNpChar05,
     ActNpChar01,
+    ActNpChar06,
     ActNpChar05,
 };
 
