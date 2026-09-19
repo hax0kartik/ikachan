@@ -3,6 +3,7 @@
 #include "Game/Player.h"
 #include "Game/System.h"
 #include "Game/Draw.h"
+#include "Game/Boss.h"
 
 //Background drawing
 #define BACK_WIDTH (((SURFACE_WIDTH + 63) / 64) * 2 + 3)
@@ -83,4 +84,49 @@ void PutMapFront(Map *map, int fx, int fy)
 void PutMapVector(Map *map, int fx, int fy)
 {
 
+}
+
+void MoveFrame(Frame *frame, NpChar *npc, Map *map)
+{
+	//Get target position
+	int tx, ty;
+
+	switch (frame->mode)
+	{
+		case FRAME_MODE_MYCHAR:
+			tx = gMC.x;
+			ty = gMC.y;
+			break;
+		case FRAME_MODE_NPCHAR:
+			tx = npc[frame->npc].x;
+			ty = npc[frame->npc].y;
+			break;
+		case FRAME_MODE_BOSS:
+			tx = gBoss.x;
+			ty = gBoss.y;
+			break;
+	}
+
+	//Move frame towards target
+    int old_fx = frame->x;    
+	if ((frame->x + (SURFACE_WIDTH << 9) - 0x2000) > tx)
+		frame->x = old_fx + (tx - (frame->x + (SURFACE_WIDTH << 9) - 0x2000)) / 16;
+	if ((frame->x + (SURFACE_WIDTH << 9) - 0x2000) < tx)
+		frame->x += (tx - (frame->x + (SURFACE_WIDTH << 9) - 0x2000)) / 16;
+
+    int old_fy = frame->y;  
+	if ((frame->y + (SURFACE_HEIGHT2 << 9) - 0x2000) > ty)
+		frame->y = old_fy + (ty - (frame->y + (SURFACE_HEIGHT2 << 9) - 0x2000)) / 16;
+	if ((frame->y + (SURFACE_HEIGHT2 << 9) - 0x2000) < ty)
+		frame->y += (ty - (frame->y + (SURFACE_HEIGHT2 << 9) - 0x2000)) / 16;
+
+	if (frame->x < 0)
+		frame->x = 0;
+    if (frame->x > ((map->width - (SURFACE_WIDTH / 16)) << 14))
+		frame->x = ((map->width - (SURFACE_WIDTH / 16)) << 14);
+
+	if (frame->y < 0)
+		frame->y = 0;
+    if (frame->y > ((map->length - (SURFACE_HEIGHT / 16)) << 14))
+		frame->y = ((map->length - (SURFACE_HEIGHT / 16)) << 14);
 }

@@ -3,6 +3,7 @@
 
 #define SURFACE_WIDTH  (400)
 #define SURFACE_HEIGHT (240)
+#define SURFACE_HEIGHT2 (256)
 
 enum SURFACE_ID
 {
