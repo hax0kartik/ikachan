@@ -25,6 +25,79 @@ void InitNpChar(NpChar *npc)
     }
 }
 
+void PutNpChar00(NpChar *npc, Frame *frame)
+{
+    static RECT rcNpc00[8] = {
+        {  0,  0, 16, 16 },
+        { 16,  0, 32, 16 },
+        { 32,  0, 48, 16 },
+        { 48,  0, 64, 16 },
+        {  0, 16, 16, 32 },
+        { 16, 16, 32, 32 },
+        { 32, 16, 48, 32 },
+        { 48, 16, 64, 32 },
+    };
+    
+    if (npc->cond != false)
+    {
+        char rectIdx = npc->direct * 4 + npc->ani_no;
+        PutBitmap3(&grcFull,
+                   (npc->x / 0x400) - (frame->x / 0x400),
+                   (npc->y / 0x400) - (frame->y / 0x400),
+                   &rcNpc00[rectIdx],
+                   SURFACE_ID_HARI + npc->code_char, -1);
+    }
+}
+
+void PutNpChar01(NpChar *npc, Frame *frame)
+{
+    static RECT rcNpc01[4] = {
+        { 0,  0, 16, 16 },
+        { 0, 16, 16, 32 },
+        { 0, 32, 16, 48 },
+        { 0, 48, 16, 64 },
+    };
+
+    if (npc->cond != false)
+    {
+        char rectIdx = npc->direct * 2 + npc->ani_no;
+        RECT rect = rcNpc01[rectIdx];
+        int incBy = ((npc->tgt_x - npc->x) / 0x4000);
+        rect.left += 16 * incBy;
+        rect.right = rect.left + 16;
+
+        PutBitmap3(&grcFull,
+                   (npc->x / 0x400) - (frame->x / 0x400),
+                   (npc->y / 0x400) - (frame->y / 0x400),
+                   &rect,
+                   SURFACE_ID_HARI + npc->code_char, -1);
+    }
+}
+
+void PutNpChar02(NpChar *npc, Frame *frame)
+{
+    static RECT rcNpc02[8] = {
+        {  0,  0, 16, 16 },
+        { 16,  0, 32, 16 },
+        {  0, 16, 16, 32 },
+        { 16, 16, 32, 32 },
+        {  0,  0, 16, 16 },
+        { 16,  0, 32, 16 },
+        {  0, 16, 16, 32 },
+        { 16, 16, 32, 32 },
+    };
+
+    if (npc->cond != false)
+    {
+        char rectIdx = npc->direct * 4 + npc->ani_no;
+        PutBitmap3(&grcFull,
+                   (npc->x / 0x400) - (frame->x / 0x400),
+                   (npc->y / 0x400) - (frame->y / 0x400),
+                   &rcNpc02[rectIdx],
+                   SURFACE_ID_HARI + npc->code_char, -1);
+    }
+}
+
 void PutNpChar03(NpChar *npc, Frame *frame)
 {
     static RECT rcNpc03[4] = {
@@ -33,13 +106,77 @@ void PutNpChar03(NpChar *npc, Frame *frame)
         {  0, 20, 20, 40 },
         { 20, 20, 40, 40 },
     };
-    
+
     if (npc->cond != false)
     {
         PutBitmap3(&grcFull,
                    (npc->x / 0x400) - (frame->x / 0x400) - 2,
                    (npc->y / 0x400) - (frame->y / 0x400) - 4,
                    &rcNpc03[npc->ani_no],
+                   SURFACE_ID_HARI + npc->code_char, -1);
+    }
+}
+
+void PutNpChar04(NpChar *npc, Frame *frame)
+{
+    static RECT rcNpc04[6] = {
+        {  0, 0,  8,  8 },
+        {  0, 8,  8, 16 },
+        {  8, 0, 16,  8 },
+        {  8, 8, 16, 16 },
+        { 16, 0, 24,  8 },
+        { 16, 8, 24, 16 },
+    };
+
+    if (npc->cond != false)
+    {
+        char rectIdx = npc->direct * 2 + npc->ani_no;
+        PutBitmap3(&grcFull,
+                   (npc->x / 0x400) - (frame->x / 0x400) + 4,
+                   (npc->y / 0x400) - (frame->y / 0x400) + 4,
+                   &rcNpc04[rectIdx],
+                   SURFACE_ID_HARI + npc->code_char, -1);
+    }
+}
+
+void PutNpChar05(NpChar *npc, Frame *frame)
+{
+    static RECT rcNpc05[6] = {
+        {  0,  0, 16, 16 },
+        {  0, 16, 16, 32 },
+        { 16,  0, 32, 16 },
+        { 16, 16, 32, 32 },
+        { 32,  0, 48, 16 },
+        { 32, 16, 48, 32 },
+    };
+
+    if (npc->cond != false)
+    {
+        char rectIdx = npc->direct * 2 + npc->ani_no;
+        PutBitmap3(&grcFull,
+                   (npc->x / 0x400) - (frame->x / 0x400),
+                   (npc->y / 0x400) - (frame->y / 0x400),
+                   &rcNpc05[rectIdx],
+                   SURFACE_ID_HARI + npc->code_char, -1);
+    }
+}
+
+void PutNpChar06(NpChar *npc, Frame *frame)
+{
+    static RECT rcNpc06[4] = {
+        {  0,  0, 30, 20 },
+        {  0, 20, 30, 40 },
+        { 30,  0, 60, 20 },
+        { 30, 20, 60, 40 },
+    };
+    
+    if (npc->cond != false)
+    {
+        char rectIdx = npc->direct * 2 + npc->ani_no;
+        PutBitmap3(&grcFull,
+                   (npc->x / 0x400) - (frame->x / 0x400) - 6,
+                   (npc->y / 0x400) - (frame->y / 0x400) - 2,
+                   &rcNpc06[rectIdx],
                    SURFACE_ID_HARI + npc->code_char, -1);
     }
 }
@@ -85,153 +222,153 @@ void ActNpChar01(NpChar *npc)
 
 void ActNpChar02(NpChar *npc)
 {
-	if (npc->act_no == 0) {
-		//Turn around if too far from home
-		if (npc->x < npc->tgt_x - 0x10000)
-			npc->direct = 1;
-		if (npc->x > npc->tgt_x + 0x10000)
-			npc->direct = 0;
-		
-		//Move in facing direction
-		if (npc->direct == 0 && npc->xm > -0x200 )
-			npc->xm -= 16;
-		if (npc->direct == 1 && npc->xm < 0x200 )
-			npc->xm += 16;
-		
-		//Jump after we've been on the ground for 80 frames
-		if (npc->airborne == false)
-			npc->act_wait++;
-		
-		if (npc->act_wait > 80)
-		{
-			npc->act_wait = 0;
-			if (npc->type == 2 && (gMC.equip & 4) == 0)
-			{
-				//Attacking jump
-				npc->ym = -1536;
-				npc->act_no = 1;
+    if (npc->act_no == 0) {
+        //Turn around if too far from home
+        if (npc->x < npc->tgt_x - 0x10000)
+            npc->direct = 1;
+        if (npc->x > npc->tgt_x + 0x10000)
+            npc->direct = 0;
+        
+        //Move in facing direction
+        if (npc->direct == 0 && npc->xm > -0x200 )
+            npc->xm -= 16;
+        if (npc->direct == 1 && npc->xm < 0x200 )
+            npc->xm += 16;
+        
+        //Jump after we've been on the ground for 80 frames
+        if (npc->airborne == false)
+            npc->act_wait++;
+        
+        if (npc->act_wait > 80)
+        {
+            npc->act_wait = 0;
+            if (npc->type == 2 && (gMC.equip & 4) == 0)
+            {
+                //Attacking jump
+                npc->ym = -1536;
+                npc->act_no = 1;
 
-			}
-			else
-			{
-				//Jump
-				npc->ym = -1024;
-			}
-		}
-		
-		//Animate
-		if (++npc->ani_wait > 10)
-		{
-			npc->ani_wait = 0;
-			if (++npc->ani_no > 1)
-				npc->ani_no = 0;
-		}
-		
-		//Fall and move
-		if (npc->ym < 0x800)
-			npc->ym += 20;
-		npc->x += npc->xm;
-		npc->y += npc->ym;
-		
-		//Do falling animation if airborne
-		if (npc->airborne == true)
-			npc->ani_no = 2;
-	} else if (npc->act_no == 1) {
-		//Animate
-		if (++npc->ani_wait > 2)
-		{
-			npc->ani_wait = 0;
-			if (++npc->ani_no > 3)
-				npc->ani_no = 2;
-		}
-		
-		//Turn around if too far from home
-		if (npc->x < npc->tgt_x - 0x10000)
-			npc->direct = 1;
-		if (npc->x > npc->tgt_x + 0x10000)
-			npc->direct = 0;
-		
-		//Move in facing direction
-		if (npc->direct == 0 && npc->xm > -0x200 )
-			npc->xm -= 16;
-		if (npc->direct == 1 && npc->xm < 0x200 )
-			npc->xm += 16;
-		
-		//Fall and move
-		if (npc->ym < 0x800)
-			npc->ym += 20;
-		npc->x += npc->xm;
-		npc->y += npc->ym;
-		
-		//Stop attacking once moving down
-		if (npc->ym > 0)
-			npc->act_no = 0;
-	}
+            }
+            else
+            {
+                //Jump
+                npc->ym = -1024;
+            }
+        }
+        
+        //Animate
+        if (++npc->ani_wait > 10)
+        {
+            npc->ani_wait = 0;
+            if (++npc->ani_no > 1)
+                npc->ani_no = 0;
+        }
+        
+        //Fall and move
+        if (npc->ym < 0x800)
+            npc->ym += 20;
+        npc->x += npc->xm;
+        npc->y += npc->ym;
+        
+        //Do falling animation if airborne
+        if (npc->airborne == true)
+            npc->ani_no = 2;
+    } else if (npc->act_no == 1) {
+        //Animate
+        if (++npc->ani_wait > 2)
+        {
+            npc->ani_wait = 0;
+            if (++npc->ani_no > 3)
+                npc->ani_no = 2;
+        }
+        
+        //Turn around if too far from home
+        if (npc->x < npc->tgt_x - 0x10000)
+            npc->direct = 1;
+        if (npc->x > npc->tgt_x + 0x10000)
+            npc->direct = 0;
+        
+        //Move in facing direction
+        if (npc->direct == 0 && npc->xm > -0x200 )
+            npc->xm -= 16;
+        if (npc->direct == 1 && npc->xm < 0x200 )
+            npc->xm += 16;
+        
+        //Fall and move
+        if (npc->ym < 0x800)
+            npc->ym += 20;
+        npc->x += npc->xm;
+        npc->y += npc->ym;
+        
+        //Stop attacking once moving down
+        if (npc->ym > 0)
+            npc->act_no = 0;
+    }
 }
 
 void ActNpChar03(NpChar *npc)
 {
-	//Fall and move
-	if (npc->ym < 0x800)
-		npc->ym += 20;
-	npc->y += npc->ym;
-	
-	//Animate
-	if (npc->act_no == 0)
-	{
-		if (npc->act_wait > 0)
-			npc->act_wait--;
-		if ((npc->x - 0x8000) < gMC.x && (npc->x + 0x8000) > gMC.x && (npc->y - 0x8000) < gMC.y && npc->y > gMC.y)
-		{
+    //Fall and move
+    if (npc->ym < 0x800)
+        npc->ym += 20;
+    npc->y += npc->ym;
+    
+    //Animate
+    if (npc->act_no == 0)
+    {
+        if (npc->act_wait > 0)
+            npc->act_wait--;
+        if ((npc->x - 0x8000) < gMC.x && (npc->x + 0x8000) > gMC.x && (npc->y - 0x8000) < gMC.y && npc->y > gMC.y)
+        {
             if (++npc->ani_wait > 2)
-		    {
-			    npc->ani_wait = 0;
-			    if (++npc->ani_no > 3)
-				    npc->ani_no = 3;
+            {
+                npc->ani_wait = 0;
+                if (++npc->ani_no > 3)
+                    npc->ani_no = 3;
                 return;
-		    }
-		}
-		if (++npc->ani_wait > 5)
-		{
-			npc->ani_wait = 0;
-			if (--npc->ani_no < 0)
-				npc->ani_no = 0;
-		}
-	}
+            }
+        }
+        if (++npc->ani_wait > 5)
+        {
+            npc->ani_wait = 0;
+            if (--npc->ani_no < 0)
+                npc->ani_no = 0;
+        }
+    }
 }
 
 void ActNpChar04(NpChar *npc)
 {
-	//Move towards Ikachan
-	if (npc->x > gMC.x)
-		npc->xm -= 24;
-	if (npc->x < gMC.x)
-		npc->xm += 24;
-	if (npc->y > gMC.y)
-		npc->ym -= 16;
-	if (npc->y < gMC.y)
-		npc->ym += 16;
-	
-	//Face towards Ikachan
-	if (npc->x > gMC.x)
-		npc->direct = 0;
-	if (npc->x < gMC.x)
-		npc->direct = 1;
-	if ((npc->x - 0x8000) < gMC.x && (npc->x + 0x8000) > gMC.x && (npc->y - 0x8000) < gMC.y && (npc->y + 0x8000) > gMC.y)
-		npc->direct = 2;
-	npc->act_no = (npc->y + 0x2000) > gMC.y;
-	
-	//Animate
-	if (++npc->ani_wait > 8)
-	{
-		npc->ani_wait = 0;
-		if (++npc->ani_no > 1)
-			npc->ani_no = 0;
-	}
-	
-	//Move
-	npc->x += npc->xm;
-	npc->y += npc->ym;
+    //Move towards Ikachan
+    if (npc->x > gMC.x)
+        npc->xm -= 24;
+    if (npc->x < gMC.x)
+        npc->xm += 24;
+    if (npc->y > gMC.y)
+        npc->ym -= 16;
+    if (npc->y < gMC.y)
+        npc->ym += 16;
+    
+    //Face towards Ikachan
+    if (npc->x > gMC.x)
+        npc->direct = 0;
+    if (npc->x < gMC.x)
+        npc->direct = 1;
+    if ((npc->x - 0x8000) < gMC.x && (npc->x + 0x8000) > gMC.x && (npc->y - 0x8000) < gMC.y && (npc->y + 0x8000) > gMC.y)
+        npc->direct = 2;
+    npc->act_no = (npc->y + 0x2000) > gMC.y;
+    
+    //Animate
+    if (++npc->ani_wait > 8)
+    {
+        npc->ani_wait = 0;
+        if (++npc->ani_no > 1)
+            npc->ani_no = 0;
+    }
+    
+    //Move
+    npc->x += npc->xm;
+    npc->y += npc->ym;
 }
 
 void ActNpChar05(NpChar *npc)
@@ -244,46 +381,46 @@ void ActNpChar05(NpChar *npc)
 
 void ActNpChar06(NpChar *npc)
 {
-	if (npc->act_no == 0)
-	{
-		//Move towards target
-		if (npc->x > npc->tgt_x)
-			npc->xm -= 12;
-		if (npc->x < npc->tgt_x)
-			npc->xm += 12;
-		if (npc->y > npc->tgt_y)
-			npc->ym -= 8;
-		if (npc->y < npc->tgt_y)
-			npc->ym += 8;
-		
-		//Face in moving direction
-		if (npc->xm < 0)
-			npc->direct = 0;
-		if (npc->xm > 0)
-			npc->direct = 1;
-		
-		//Animate
-		if (++npc->ani_wait > 30)
-		{
-			npc->ani_wait = 0;
-			if (++npc->ani_no > 1)
-				npc->ani_no = 0;
-		}
-		
-		//Limit speed
-		if (npc->xm > 0x800)
-			npc->xm = 0x800;
-		if (npc->xm < -0x800)
-			npc->xm = -0x800;
-		if (npc->ym > 0x800)
-			npc->ym = 0x800;
-		if (npc->ym < -0x800)
-			npc->ym = -0x800;
-		
-		//Move
-		npc->x += npc->xm;
-		npc->y += npc->ym;
-	}
+    if (npc->act_no == 0)
+    {
+        //Move towards target
+        if (npc->x > npc->tgt_x)
+            npc->xm -= 12;
+        if (npc->x < npc->tgt_x)
+            npc->xm += 12;
+        if (npc->y > npc->tgt_y)
+            npc->ym -= 8;
+        if (npc->y < npc->tgt_y)
+            npc->ym += 8;
+        
+        //Face in moving direction
+        if (npc->xm < 0)
+            npc->direct = 0;
+        if (npc->xm > 0)
+            npc->direct = 1;
+        
+        //Animate
+        if (++npc->ani_wait > 30)
+        {
+            npc->ani_wait = 0;
+            if (++npc->ani_no > 1)
+                npc->ani_no = 0;
+        }
+        
+        //Limit speed
+        if (npc->xm > 0x800)
+            npc->xm = 0x800;
+        if (npc->xm < -0x800)
+            npc->xm = -0x800;
+        if (npc->ym > 0x800)
+            npc->ym = 0x800;
+        if (npc->ym < -0x800)
+            npc->ym = -0x800;
+        
+        //Move
+        npc->x += npc->xm;
+        npc->y += npc->ym;
+    }
 }
 
 typedef void (*NPCACT)(NpChar*);
