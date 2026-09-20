@@ -23,7 +23,7 @@ result = subprocess.run(f'python Tools/gen-build.py', shell=True)
 if result.returncode != 0:
     exit()
 
-result = subprocess.run(f'ninja -C build', shell=True)
+result = subprocess.run(f'ninja -v -C build', shell=True)
 if result.returncode != 0:
     exit()
 

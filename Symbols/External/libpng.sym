@@ -42,7 +42,7 @@ png_read_update_info,00145b50,40,O
 png_read_transform_info,00145b7c,252,O
 png_set_IHDR,00145c7c,268,O
 png_read_filter_row,00144c94,776,O
-png_read_row,00145654,740,M
+png_read_row,00145654,740,m
 png_read_destroy,00144958,308,m
 png_do_read_transformations,001439bc,404,O
 png_combine_row,0011bb18,968,O
@@ -51,3 +51,5 @@ png_set_read_fn,00145e04,140,m
 png_reset_crc,0011c34c,32,O
 png_read_finish_row,00144f9c,872,m
 png_read_start_row,00145938,516,O
+png_set_text,00145edc,292,O
+png_destroy_read_struct,0011e91c,160,O

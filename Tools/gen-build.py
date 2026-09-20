@@ -32,15 +32,18 @@ def include_flags(dirs):
     includes = includes + f" -I{ARMINC}"
     return includes
 
+
+LIBPNG_DEFINES = "-DPNG_NO_WRITE_sRGB=1 -DPNG_WRITE_TRANSFORMS_NOT_SUPPORTED=1"
+
 # Flags
 CFLAGS = "--apcs=//interwork --cpu=MPCore --fpmode=fast --c99 --arm " \
          "--signed_chars --multibyte-chars --locale=japanese -Otime -O3 " \
-         "--data-reorder --split_sections --diag_suppress=1294 " + include_flags(INCLUDE_DIRS) + " -DNON_MATCHING="
+         "--data-reorder --split_sections --diag_suppress=1294 " + include_flags(INCLUDE_DIRS) + " -DNON_MATCHING= " + LIBPNG_DEFINES
 
 CXXFLAGS = "--apcs=//interwork --cpu=MPCore --fpmode=fast --cpp --arm " \
            "--force_new_nothrow --signed_chars --multibyte-chars --locale=japanese " \
            "--no_vfe --no_rtti_data --no_rtti --no_exceptions -Otime -O3 " \
-           "--data-reorder --split_sections --forceinline " + include_flags(INCLUDE_DIRS) + " -DNON_MATCHING="
+           "--data-reorder --split_sections --forceinline " + include_flags(INCLUDE_DIRS) + " -DNON_MATCHING= " + LIBPNG_DEFINES
 
 LDFLAGS = "--cpu=MPCore --entry=__ctr_start --startup=__ctr_start " \
           "--library_type=standardlib --ref_cpp_init --scanlib --legacyalign " \
