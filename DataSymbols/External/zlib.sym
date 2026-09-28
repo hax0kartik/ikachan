@@ -1,2 +1,7 @@
 i.border,00147400
 i.inflate_mask,001547C8
+i.crc_table,00147000
+i.cplens,0014744C
+i.cplext,001474C8
+i.cpdist,00147544
+i.cpdext,001475BC

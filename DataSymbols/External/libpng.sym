@@ -1,2 +1,8 @@
-i.msg,00154B60
 i.hdr,00154A30
+i.png_libpng_ver,00154A08
+i.png_pass_start,00154A50
+i.png_pass_inc,00154A6C
+i.png_pass_ystart,00154A88
+i.png_pass_yinc,00154AA4
+i.msg,00154B60
+i.png_gamma_shift,00154B30

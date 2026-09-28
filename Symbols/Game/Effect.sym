@@ -5,3 +5,4 @@ _Z11ProcCaret02P5CaretP3MapP5Frame,001374d4,200,O
 _Z11ProcCaret03P5CaretP3MapP5Frame,00137900,256,O
 _Z9ProcCaretP5CaretP3MapP5Frame,0010971c,80,O
 _Z16FindCaretSpawnerP12CaretSpawner,001240d8,44,O
+_Z16ProcCaretSpawnerP12CaretSpawnerP5Caret,00109c50,256,U
