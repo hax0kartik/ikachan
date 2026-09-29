@@ -36,7 +36,7 @@ void InitBoss()
 
 
 extern "C" void sub_127D94(u32*, float);
-u32 stereocamera = 0;
+u32 split(stereocamera) = 0;
 
 NON_MATCHING
 // replaces 4 LDR with a single LDMI
@@ -133,6 +133,201 @@ void DamageBoss(CaretSpawner *caretSpawner, char damage)
 
         PlaySoundObject(16, 1);
     }
+}
+
+NON_MATCHING
+// few instructions in this are not matching.
+void ActBoss(CaretSpawner *caret_spawner)
+{
+	int acc_x, acc_y;
+
+	//Decrement shock counter
+	if (gBoss.shock > 0)
+		--gBoss.shock;
+
+	switch (gBoss.act_no)
+	{
+		case 0:
+			//Move towards target
+			acc_x = 6;
+			acc_y = 4;
+
+			if (gBoss.x > gBoss.tgt_x)
+				gBoss.xm -= acc_x;
+			if (gBoss.x < gBoss.tgt_x)
+				gBoss.xm += acc_x;
+			if (gBoss.y > gBoss.tgt_y)
+				gBoss.ym -= acc_y;
+			if (gBoss.y < gBoss.tgt_y)
+				gBoss.ym += acc_y;
+			
+			//Swim in moving direction
+			if (gBoss.xm < 0 && gBoss.direct == 1)
+			{
+				//Turn around with bubble effect
+				gBoss.direct = 0;
+				int bubble_i = FindCaretSpawner(caret_spawner);
+				if (bubble_i != NO_CARET)
+				{
+					CaretSpawner *caretsp = &caret_spawner[bubble_i];
+					caretsp->cond = true;
+					caretsp->type = 1;
+					caretsp->ani_no = 0;
+					caretsp->num = 5;
+					caretsp->x = gBoss.x + 0xC000;
+					caretsp->y = gBoss.y + 0x3000;
+					caretsp->rand_moveright = 0x400;
+					caretsp->rand_moveleft = 0x200;
+					caretsp->rand_movedown = 0x400;
+					caretsp->rand_moveup = -0x400;
+					caretsp->rand_x = 16;
+					caretsp->rand_y = 12;
+				}
+			}
+			if (gBoss.xm > 0 && gBoss.direct == 0)
+			{
+				//Turn around with bubble effect
+				gBoss.direct = 1;
+				int bubble_i = FindCaretSpawner(caret_spawner);
+				if (bubble_i != NO_CARET)
+				{
+					CaretSpawner *caretsp = &caret_spawner[bubble_i];
+					caretsp->cond = true;
+					caretsp->type = 1;
+					caretsp->ani_no = 0;
+					caretsp->num = 5;
+					caretsp->x = gBoss.x + 0x4000;
+					caretsp->y = gBoss.y + 0x3000;
+					caretsp->rand_moveright = -0x200;
+					caretsp->rand_moveleft = -0x400;
+					caretsp->rand_movedown = 0x400;
+					caretsp->rand_moveup = -0x400;
+					caretsp->rand_x = 16;
+					caretsp->rand_y = 12;
+				}
+			}
+			
+			//Animate
+			if (++gBoss.ani_wait > 8)
+			{
+				gBoss.ani_wait = 0;
+				gBoss.ani_no++;
+				if (gBoss.ani_no > 9)
+					gBoss.ani_no = 2;
+			}
+			
+			//Limit speed
+			if (gBoss.xm > 0x800)
+				gBoss.xm = 0x800;
+			if (gBoss.xm < -0x800)
+				gBoss.xm = -0x800;
+			if (gBoss.ym > 0x800)
+				gBoss.ym = 0x800;
+			if (gBoss.ym < -0x800)
+				gBoss.ym = -0x800;
+			
+			//Move
+			gBoss.x += gBoss.xm;
+			gBoss.y += gBoss.ym;
+			break;
+		case 1:
+			//Move towards Ikachan
+			acc_x = 8;
+			acc_y = 8;
+
+			if (gBoss.x > gMC.x)
+				gBoss.xm -= acc_x;
+			if (gBoss.x < gMC.x)
+				gBoss.xm += acc_x;
+			if (gBoss.y > gMC.y)
+				gBoss.ym -= acc_y;
+			if (gBoss.y < gMC.y)
+				gBoss.ym += acc_y;
+			
+			//Charge towards Ikachan after some time
+			if (gBoss.act_wait > 0)
+				gBoss.act_wait--;
+			if (gBoss.act_wait <= 0 && gBoss.y < gMC.y && (gBoss.y + 0x2000) > gMC.y)
+			{
+				gBoss.act_wait = 400;
+				gBoss.ym = 0;
+				gBoss.act_no = 2;
+				if ((gBoss.x + 0x6000) <= gMC.x)
+					gBoss.xm = 0x4000;
+				else
+					gBoss.xm = -0x4000;
+			}
+			
+			//Face in moving direction
+			if (gBoss.xm < 0 && gBoss.direct == 1)
+				gBoss.direct = 0;
+			if (gBoss.xm > 0 && gBoss.direct == 0)
+				gBoss.direct = 1;
+			
+			//Animate
+			if (++gBoss.ani_wait > 4)
+			{
+				gBoss.ani_wait = 0;
+				gBoss.ani_no++;
+			}
+			if (gBoss.ani_no > 9)
+				gBoss.ani_no = 2;
+			
+			//Limit speed
+			if (gBoss.xm > 0x800)
+				gBoss.xm = 0x800;
+			if (gBoss.xm < -0x800)
+				gBoss.xm = -0x800;
+			if (gBoss.ym > 0x800)
+				gBoss.ym = 0x800;
+			if (gBoss.ym < -0x800)
+				gBoss.ym = -0x800;
+			
+			//Move
+			gBoss.x += gBoss.xm;
+			gBoss.y += gBoss.ym;
+			break;
+		case 2:
+			//Slow down and stop charging once velocity is near zero
+			if (gBoss.xm > 0)
+				gBoss.xm -= 8;
+			if (gBoss.xm < 0)
+				gBoss.xm += 8;
+			if (gBoss.xm < 8 && gBoss.xm > -8)
+				gBoss.act_no = 1;
+			
+			//Decrement charge timer
+			if (gBoss.act_wait > 0)
+				gBoss.act_wait--;
+			
+			//Charge effect
+			if ((gBoss.act_wait % 5) == 0)
+			{
+				int star_i = FindCaretSpawner(caret_spawner);
+				if (star_i != NO_CARET)
+				{
+					CaretSpawner *caretsp = &caret_spawner[star_i];
+					caretsp->cond = true;
+					caretsp->type = 0;
+					caretsp->ani_no = 0;
+					caretsp->num = 1;
+					caretsp->x = gBoss.x + 0x8000;
+					caretsp->y = gBoss.y + 0x3000;
+					caretsp->rand_moveright = gBoss.xm * -1;
+					caretsp->rand_moveleft = gBoss.xm * -1;
+					caretsp->rand_movedown = 0x400;
+					caretsp->rand_moveup = -0x400;
+					caretsp->rand_x = 16;
+					caretsp->rand_y = 12;
+				}
+			}
+
+			//Set animation and move
+			gBoss.ani_no = 2;
+			gBoss.x += gBoss.xm;
+			gBoss.y += gBoss.ym;
+			break;
+	}
 }
 
 void HitMyCharBoss(EventScr *event_scr, CaretSpawner *caret_spawner)

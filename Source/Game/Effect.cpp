@@ -15,7 +15,7 @@ int FindCaret(Caret *caret)
 }
 
 //Caret process
-RECT rcCaret[20] =
+RECT split(rcCaret)[20] =
 {
     {  0, 0,  8,  8 },
     {  8, 0, 16,  8 },
@@ -68,6 +68,15 @@ void ProcCaret00(Caret *caret, Map *map, Frame *frame)
                    SURFACE_ID_STAR + caret->type, -1);
 }
 
+extern "C" void sub_127D94(u32*, float);
+extern u32 stereocamera;
+extern "C" const float split(caretDepth)[] = {
+    0.1f,
+    0.2f,
+    0.3f,
+    0.4f,
+    0.5f,
+};
 
 void ProcCaret01(Caret *caret, Map *map, Frame *frame)
 {
@@ -89,12 +98,18 @@ void ProcCaret01(Caret *caret, Map *map, Frame *frame)
     }
     
     //Draw
-    if (caret->cond)
+    if (caret->cond) {
+        char no = caret->ani_no;
+        sub_127D94(&stereocamera, caretDepth[no]);
+
         PutBitmap3(&grcFull,
                    (caret->x - frame->x) / 0x400 - 4,
                    (caret->y - frame->y) / 0x400 - 4,
                    &rcCaret[caret->ani_no],
                    SURFACE_ID_STAR + caret->type, -1);
+
+        sub_127D94(&stereocamera, 0.0f);
+    }
 }
 
 void ProcCaret02(Caret *caret, Map *map, Frame *frame)
