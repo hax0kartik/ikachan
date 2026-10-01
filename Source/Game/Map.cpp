@@ -78,7 +78,30 @@ void PutMapBack(Map *map, int fx, int fy)
 
 void PutMapFront(Map *map, int fx, int fy)
 {
-	
+	sub_127D94(&stereocamera, 0.5f);
+
+	int sx = fx / 0x4000 - 1;
+	int sy = fy / 0x4000;
+
+	for (int y = sy; y < sy + 16; y++)
+	{
+		for (int x = sx; x < sx + 27; x++)
+		{
+			u32 tile = map->GetTile(x, y);
+			u8 atrb = map->GetAtrb(tile);
+			if (atrb == 0x40 || (atrb & 0x80) || atrb == 0)
+				continue;
+
+			RECT rect;
+			rect.left = (tile % 16) * 16;
+			rect.top = (tile / 16) * 16;
+			rect.right = rect.left + 16;
+			rect.bottom = rect.top + 16;
+			PutBitmap3(&grcFull, x * 16 - fx / 0x400, y * 16 - fy / 0x400, &rect, SURFACE_ID_PRTBACK, -1);
+		}
+	}
+
+	sub_127D94(&stereocamera, 0.0f);
 }
 
 void PutMapVector(Map *map, int fx, int fy)

@@ -1,0 +1,13 @@
+nn::hid::CTR::GetTouch,0010753c,8,U
+nn::hid::CTR::GetPad,00107548,8,U
+_ZN2nn3hid3CTR9PadReaderC1ERNS1_3PadE,00107554,52,U
+_ZN2nn3hid3CTR10InitializeEv,0010dc78,16,U
+_ZN2nn3hid3CTR18AnalogStickClamperC1Ev,0010dc90,88,U
+_ZN2nn3hid3CTR10HidDevices10InitializeEPKc,00114b1c,280,U
+_ZN2nn3hid3CTR16TouchPanelReader10ReadLatestEPNS1_16TouchPanelStatusE,0011b614,132,U
+_ZN2nn3hid3CTR6detail3Ipc13GetIPCHandlesEPNS_6HandleES5_S5_S5_S5_S5_,0011b698,116,U
+_ZN2nn3hid3CTR9PadReader10ReadLatestEPNS1_9PadStatusE,0011b710,300,U
+_ZN2nn3hid3CTR18AnalogStickClamper17ClampValueOfClampEv,0012e7dc,76,U
+_ZN2nn3hid3CTR18AnalogStickClamper9ClampCoreEPsS3_ii,0012e828,148,U
+_ZN2nn3hid3CTR8ExtraPad10IsSamplingEv,0012e8bc,24,U
+_ZN2nn3hid3CTR10HidDevicesD1Ev,0013d1d4,168,U

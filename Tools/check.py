@@ -4,6 +4,7 @@ import multiprocessing
 import threading
 import time
 import shutil
+from concurrent.futures import ThreadPoolExecutor
 
 def getRankName(rank: str):
     match rank:
@@ -20,25 +21,26 @@ def getRankName(rank: str):
 def clear_line():
     print(' ' * shutil.get_terminal_size((80, 20)).columns, end='\r')
 
-def check_file(subdir: str, file: str):
-    filepath = os.path.join(subdir, file)
-    syms = read_sym_file(filepath)
-    newsyms = []
-    for sym in syms:
-        decomp_symbol = get_elf_symbol(sym[0])
-        if (decomp_symbol is None):
-            newsyms.append((sym[0], sym[1], 'U', sym[3], sym[4]))
-            if (sym[2] != 'U'):
-                clear_line()
-                print(sym[0] + ' ' + getRankName(sym[2]) + ' -> ' + getRankName('U'))
-        else:
+print_lock = threading.Lock()
+
+
+def check_symbol(sym):
+    decomp_symbol = get_elf_symbol(sym[0])
+    if decomp_symbol is None:
+        rank = 'U'
+    else:
+        with print_lock:
             clear_line()
             print("Checking " + sym[0], end='\r')
-            rank = rank_symbol(sym, decomp_symbol)
-            newsyms.append((sym[0], sym[1], rank, sym[3], sym[4]))
-            if (sym[2] != rank):
-                clear_line()
-                print(sym[0] + ' ' + getRankName(sym[2]) + ' -> ' + getRankName(rank))
+        rank = rank_symbol(sym, decomp_symbol)
+    if sym[2] != rank:
+        with print_lock:
+            clear_line()
+            print(sym[0] + ' ' + getRankName(sym[2]) + ' -> ' + getRankName(rank))
+    return (sym[0], sym[1], rank, sym[3], sym[4])
+
+
+def write_sym_file(filepath: str, newsyms: list):
     with open(filepath, 'w') as f:
         for sym in newsyms:
             f.write(sym[0] + ',' + "{:08x}".format(sym[1]) + ',' + sym[3] + ',' + sym[2])
@@ -46,17 +48,6 @@ def check_file(subdir: str, file: str):
                 f.write(',' + sym[4] + '\n')
             else:
                 f.write('\n')
-
-def check_batch(batch: list):
-    for i in range(len(batch)):
-        check_file(batch[i][0], batch[i][1])
-
-class batch_thread(threading.Thread):
-    def __init__(self, batch: list):
-        threading.Thread.__init__(self)
-        self.batch = batch
-    def run(self):
-        check_batch(self.batch)
 
 def main():
     start = time.time()
@@ -71,32 +62,15 @@ def main():
         for file in files:
             if "Unnamed.sym" in file:
                 continue
-            sym_files.append((subdir, file))
-    
-    file_num = len(sym_files)
-    batch_size = int(file_num / multiprocessing.cpu_count())
-    if batch_size < 2:
-        batch_size = 2
-    batches = []
-    cur_batch = []
-    j = 0
-    for i in range(file_num):
-        if j == batch_size:
-            batches.append(cur_batch)
-            cur_batch = []
-            j = 0
-        cur_batch.append(sym_files[i])
-        j += 1
-    if j != 0:
-        batches.append(cur_batch)
+            sym_files.append(os.path.join(subdir, file))
 
-    threads = []
-    for batch in batches:
-        thread = batch_thread(batch)
-        thread.start()
-        threads.append(thread)
-    for thread in threads:
-        thread.join()
+    # Rank every symbol of every file on one shared pool, so slow asm-differ runs
+    # are spread over all cores instead of piling up in whichever file has them
+    with ThreadPoolExecutor(max_workers=multiprocessing.cpu_count()) as pool:
+        pending = [(path, [pool.submit(check_symbol, sym) for sym in read_sym_file(path)])
+                   for path in sym_files]
+        for path, futures in pending:
+            write_sym_file(path, [fut.result() for fut in futures])
 
     clear_line()
     print(f"{int(time.time() - start)}s elapsed")

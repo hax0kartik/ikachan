@@ -1,1 +1,11 @@
 _Z6Randomii,00127ddc,36,O
+IsKeyPressed,00127e00,64,U
+ReadControls,00117b04,260,U
+InitializeControls,00100dd0,108,U
+sysMalloc,001250f8,16,U
+something_like_strcmp,00111fcc,68,U
+File__ctor,00124078,92,U
+File__dtor,00123eb0,124,U
+File__OpenRomfs,001234d8,8,U
+File__OpenSdmc,0012403c,48,U
+File__Read,00123fe0,92,U

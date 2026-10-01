@@ -27,6 +27,10 @@ def genLDScript():
     syms = sorted(syms, key=lambda tup: tup[1])
     data_syms = sorted(data_syms, key=lambda tup: tup[1])
     for sym in syms:
+        # "sub" entries live in the same input section as a preceding entry,
+        # which already places the whole section; a second region would be ambiguous
+        if len(sym) == 5 and sym[4] == "sub":
+            continue
         if (sym[2] == 'm' or sym[2] == 'O') and sym[0]:
             matching_data += sym[0] + " " + "0x{:08x}\n".format(sym[1])
             matching_data += "{\n"

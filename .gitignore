@@ -1,6 +1,7 @@
 Build/
 __pycache__/
 .cache/
-
+.vscode/
 code.bin
+Compilers/
 compile_commands.json

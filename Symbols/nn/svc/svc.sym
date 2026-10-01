@@ -12,3 +12,4 @@ _ZN2nn3svc15DuplicateHandleEPNS_6HandleES1_,00136a08,24,O
 _ZN2nn3svc13ConnectToPortEPNS_6HandleEPKc,00111f1c,24,O
 _ZN2nn3svc12GetProcessIdEPjNS_6HandleE,0011a4b0,24,O
 _ZN2nn3svc16GetResourceLimitEPNS_6HandleES1_,001015dc,24,O
+_ZN2nn3svc13GetSystemTickEv,0011a4c8,12,U

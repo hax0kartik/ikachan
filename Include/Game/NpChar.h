@@ -3,7 +3,7 @@
 
 #define MAX_NPCS (100)
 
-struct NpChar{
+struct NpChar {
     bool cond;
     char type;
     char code_char;

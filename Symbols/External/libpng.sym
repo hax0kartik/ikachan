@@ -53,3 +53,7 @@ png_read_finish_row,00144f9c,872,m
 png_read_start_row,00145938,516,O
 png_set_text,00145edc,292,O
 png_destroy_read_struct,0011e91c,160,O
+png_destroy_struct,0011d280,16,O
+png_zfree,0011d290,4,M
+png_info_destroy,00127610,108,M
+png_memcpy_check,00135124,20,m

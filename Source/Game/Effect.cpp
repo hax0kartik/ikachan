@@ -70,7 +70,8 @@ void ProcCaret00(Caret *caret, Map *map, Frame *frame)
 
 extern "C" void sub_127D94(u32*, float);
 extern u32 stereocamera;
-extern "C" const float split(caretDepth)[] = {
+
+const float split(caretDepth)[] = {
     0.1f,
     0.2f,
     0.3f,

@@ -3,10 +3,14 @@
 
 struct Map
 {
-	u8 unk[260];
+	char filename[256];
+	u8 *atrb;
 	u8 *data;
 	u8 fx;
 	int width, length;
+
+	u8 GetTile(int x, int y) { return data[x + y * width]; }
+	u8 GetAtrb(int tile) { return ((u32)tile < 0x100) ? atrb[tile] : 0; }
 };
 
 enum FRAME_MODE

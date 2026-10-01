@@ -16,3 +16,9 @@ _Z11ActNpChar06P6NpChar,0013abfc,268,O
 _Z9ActNpCharP6NpChar,001098d0,68,O
 _Z19JudgeHitNpCharBlockP6NpChariih,00112bd8,690,O
 _Z12HitNpCharMapP6NpCharP3Map,00109770,312,U
+ActNpChar00,0013a9f8,508,U
+PutNpChar,0010cba4,104,U
+PutNpChar08,0013773c,132,U
+PutNpChar09,0013726c,140,U
+PutNpChar10,00137300,136,U
+LoadEntityPlacementFile,0011a61c,316,U

@@ -1,0 +1,5 @@
+_Z10PutBitmap3PK4RECTiiS1_ii,00127c98,248,M
+MakeSurface_File,0012a6ac,60,U
+InitializeGraphics,001010ac,1272,U
+GLAllocator,0010d3b4,52,U
+GLDeallocator,0010d3ec,52,U

@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "Game/Player.h"
 #include "Game/Effect.h"
 #include "Game/System.h"
@@ -40,10 +41,13 @@ void DamageMyChar(CaretSpawner *caret_spawner, char damage)
 	{
 		//Take damage
 		gMC.shock = 100;
-		gMC.life -= damage;
-		if (gMC.life < 0)
+
+		s16 newLife = gMC.life - 2 * damage;
+		gMC.life = newLife;
+
+		if (newLife < 0)
 			gMC.life = 0;
-		
+
 		//Show us how much damage we took
 		int damage_i = FindCaretSpawner(caret_spawner);
 		if (damage_i != NO_CARET)
@@ -158,6 +162,124 @@ void ActMyCharShip(Caret *caret, CaretSpawner *caretSpawner)
     gMC.ani_no = 3;
     if (gMC.shock != 0)
         gMC.shock = 0;
+}
+
+char JudgeHitMyCharBlock(int x, int y, char flag)
+{
+	//Collide with block
+	int dx = 0;
+	int dy = 0;
+
+	if ((flag & 1) && (flag & 2))
+	{
+		if ((gMC.x / 0x400) < (x * 16 + 15) && (gMC.y / 0x400) < (y * 16 + 12))
+			dx = ((x * 16 + 15) << 10) - gMC.x;
+		if ((gMC.y / 0x400) < (y * 16 + 15) && (gMC.x / 0x400) < (x * 16 + 12))
+			dy = ((y * 16 + 16) << 10) - gMC.y;
+
+		if (dx != 0 || dy != 0)
+		{
+			if ((dx != 0 && abs(dx) < abs(dy)) || dy == 0)
+			{
+				if (gMC.xm < -0x400)
+					PlaySoundObject(SOUND_ID_HITHEAD, SOUND_MODE_PLAY);
+				gMC.x = (x * 16 + 15) << 10;
+				gMC.xm = 0;
+				gMC.flag |= 1;
+			}
+			else
+			{
+				if (gMC.ym < -0x400)
+					PlaySoundObject(SOUND_ID_HITHEAD, SOUND_MODE_PLAY);
+				gMC.y = (y * 16 + 16) << 10;
+				gMC.ym = 0;
+				gMC.flag |= 2;
+			}
+		}
+	}
+	else if ((flag & 4) && (flag & 2))
+	{
+		if (((gMC.x + 0x3FF) / 0x400) > (x * 16 - 14) && (gMC.y / 0x400) < (y * 16 + 12))
+			dx = ((x * 16 - 14) << 10) - gMC.x;
+		if ((gMC.y / 0x400) < (y * 16 + 15) && (gMC.x / 0x400) > (x * 16 - 12))
+			dy = ((y * 16 + 16) << 10) - gMC.y;
+
+		if (dx != 0 || dy != 0)
+		{
+			if ((dx != 0 && abs(dx) < abs(dy)) || dy == 0)
+			{
+				if (gMC.xm > 0x400)
+					PlaySoundObject(SOUND_ID_HITHEAD, SOUND_MODE_PLAY);
+				gMC.x = (x * 16 - 14) << 10;
+				gMC.xm = 0;
+				gMC.flag |= 4;
+			}
+			else
+			{
+				if (gMC.ym < -0x400)
+					PlaySoundObject(SOUND_ID_HITHEAD, SOUND_MODE_PLAY);
+				gMC.y = (y * 16 + 16) << 10;
+				gMC.ym = 0;
+				gMC.flag |= 2;
+			}
+		}
+	}
+	else if ((flag & 1) && (flag & 8))
+	{
+		if ((gMC.x / 0x400) < (x * 16 + 15) && (gMC.y / 0x400) > (y * 16 - 12))
+			dx = ((x * 16 + 15) << 10) - gMC.x;
+		if ((gMC.y / 0x400) >= (y * 16 - 16) && (gMC.x / 0x400) < (x * 16 + 12))
+			dy = ((y * 16 - 16) << 10) - gMC.y;
+
+		if (dx != 0 || dy != 0)
+		{
+			if ((dx != 0 && abs(dx) < abs(dy)) || dy == 0)
+			{
+				if (gMC.xm < -0x400)
+					PlaySoundObject(SOUND_ID_HITHEAD, SOUND_MODE_PLAY);
+				gMC.x = (x * 16 + 15) << 10;
+				gMC.xm = 0;
+				gMC.flag |= 1;
+			}
+			else
+			{
+				gMC.airborne = false;
+				gMC.y = (y * 16 - 16) << 10;
+				if (gMC.ym > 0)
+					gMC.ym = 0;
+				gMC.flag |= 8;
+			}
+		}
+	}
+	else if ((flag & 4) && (flag & 8))
+	{
+		if (((gMC.x + 0x3FF) / 0x400) > (x * 16 - 14) && (gMC.y / 0x400) > (y * 16 - 12))
+			dx = ((x * 16 - 14) << 10) - gMC.x;
+		if ((gMC.y / 0x400) >= (y * 16 - 16) && (gMC.x / 0x400) > (x * 16 - 12))
+			dy = ((y * 16 - 16) << 10) - gMC.y;
+
+		if (dx != 0 || dy != 0)
+		{
+			if ((dx != 0 && abs(dx) < abs(dy)) || dy == 0)
+			{
+				if (gMC.xm > 0x400)
+					PlaySoundObject(SOUND_ID_HITHEAD, SOUND_MODE_PLAY);
+				gMC.x = (x * 16 - 14) << 10;
+				gMC.xm = 0;
+				gMC.flag |= 4;
+			}
+			else
+			{
+				gMC.airborne = false;
+				gMC.y = (y * 16 - 16) << 10;
+				if (gMC.ym > 0)
+					gMC.ym = 0;
+				gMC.flag |= 8;
+			}
+		}
+	}
+
+	return gMC.flag;
 }
 
 typedef void (*MyCharAct)(Caret*, CaretSpawner*);
