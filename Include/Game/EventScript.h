@@ -16,7 +16,7 @@ struct EventScr
 	int event_no; //x10
 	u32 p_read; //x14
 	u8 ani_cursor; //x18
-	//alignment x19
+	u8 pad19; //x19
 	u8 wait; //x1A
 	u16 x1C; //x1C
 	char line; //x1E

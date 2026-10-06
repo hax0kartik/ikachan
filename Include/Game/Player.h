@@ -15,10 +15,10 @@ struct MyChar
 	u16 ani_wait; // 16
 	s16 shock; // 18
 	u16 no_event; // 1A
-	u16 life; // 1C
-    u16 unk_1E; // 1E
+	s16 life; // 1C
+    s16 heal_wait; // 1E
 	u16 exp; // 20
-    u16 unk_22; // 22
+    s16 exp_wait; // 22
 	char level; // 24
 	u16 swim_wait; // 26
 	s16 dash_wait; // 28
