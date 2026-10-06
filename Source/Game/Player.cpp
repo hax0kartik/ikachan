@@ -3,9 +3,11 @@
 #include "Game/Effect.h"
 #include "Game/System.h"
 #include "Game/Sound.h"
+#include "Game/Draw.h"
+#include "Game/Map.h"
 
-MyChar gMC;
-u16 gMycLife[MAX_LEVEL + 1] = { 8, 12, 16, 20, 24, 28, 32 };
+MyChar split(gMC);
+s16 split(gMycLife)[MAX_LEVEL + 1] = { 8, 12, 16, 20, 24, 28, 32 };
 
 void InitMyChar()
 {
@@ -14,9 +16,9 @@ void InitMyChar()
     gMC.dead = 0;
     gMC.level = 0;
     gMC.life = gMycLife[0];
-    gMC.unk_1E = 0;
+    gMC.heal_wait = 0;
     gMC.exp = 0;
-    gMC.unk_22 = 0;
+    gMC.exp_wait = 0;
     gMC.x = 0xA0000;
     gMC.y = 0x1A0000;
     gMC.ym = 0;
@@ -42,10 +44,10 @@ void DamageMyChar(CaretSpawner *caret_spawner, char damage)
 		//Take damage
 		gMC.shock = 100;
 
-		s16 newLife = gMC.life - 2 * damage;
+		u16 newLife = gMC.life - 2 * damage;
 		gMC.life = newLife;
 
-		if (newLife < 0)
+		if (gMC.life < 0)
 			gMC.life = 0;
 
 		//Show us how much damage we took
@@ -280,6 +282,123 @@ char JudgeHitMyCharBlock(int x, int y, char flag)
 	}
 
 	return gMC.flag;
+}
+
+struct RawTexture;
+extern RawTexture gFogTexture;
+extern "C" void FogTexture_SetPixel(RawTexture *tex, u32 x, int y, u32 color);
+extern "C" void FogTexture_Flush(RawTexture *tex);
+
+void JudgeHitMyCharItem(int x, int y, CaretSpawner *caretSpawner, Map *map)
+{
+    if ((gMC.x / 0x400) < (x * 16 + 8) &&
+        (gMC.x / 0x400) > (x * 16 - 8) &&
+        (gMC.y / 0x400) < (y * 16 + 8) &&
+        (gMC.y / 0x400) > (y * 16 - 8))
+    {
+        //Remove item and reveal it on the fog map
+        map->data[x + y * map->width] = 0;
+        FogTexture_SetPixel(&gFogTexture, x, y, 0);
+        FogTexture_Flush(&gFogTexture);
+
+        //Play item sound, add exp and life
+        PlaySoundObject(SOUND_ID_ITEM, SOUND_MODE_PLAY);
+        if (gMC.life < gMycLife[gMC.level])
+        {
+            gMC.life++;
+            gMC.heal_wait = 12;
+        }
+        gMC.exp++;
+        gMC.exp_wait = 20;
+        if (gMC.life > gMycLife[gMC.level])
+            gMC.life = gMycLife[gMC.level];
+
+        //Create '+1' experience indicator
+        int exp_i = FindCaretSpawner(caretSpawner);
+        if (exp_i != NO_CARET)
+        {
+            CaretSpawner *caretsp = &caretSpawner[exp_i];
+            caretsp->cond = true;
+            caretsp->type = 2;
+            caretsp->ani_no = 11;
+            caretsp->num = 1;
+            caretsp->x = gMC.x + 0x2000;
+            caretsp->y = gMC.y - 0x1000;
+            caretsp->rand_x = 1;
+            caretsp->rand_y = 0;
+        }
+
+        //Create stars
+        int star_i = FindCaretSpawner(caretSpawner);
+        if (star_i != NO_CARET)
+        {
+            CaretSpawner *caretsp = &caretSpawner[star_i];
+            caretsp->cond = true;
+            caretsp->type = 0;
+            caretsp->ani_no = 0;
+            caretsp->num = 4;
+            caretsp->x = gMC.x + 0x2000;
+            caretsp->y = gMC.y + 0x2000;
+            caretsp->rand_moveright = 0x800;
+            caretsp->rand_moveleft = -0x800;
+            caretsp->rand_movedown = 0;
+            caretsp->rand_moveup = -0x800;
+            caretsp->rand_x = 1;
+            caretsp->rand_y = 0;
+        }
+    }
+}
+
+extern "C" void sub_127D94(u32*, float);
+extern u32 stereocamera;
+
+void PutMyChar(Frame *frame)
+{
+	static RECT split(rcMyChar)[12] = {
+		{  0,  0, 16, 16 },
+		{ 16,  0, 32, 16 },
+		{ 32,  0, 48, 16 },
+		{ 48,  0, 64, 16 },
+
+		{  0, 16, 16, 32 },
+		{ 16, 16, 32, 32 },
+		{ 32, 16, 48, 32 },
+		{ 48, 16, 64, 32 },
+
+		{  0, 32, 16, 48 },
+		{ 16, 32, 32, 48 },
+		{ 32, 32, 48, 48 },
+		{ 48, 32, 64, 48 },
+	};
+
+	static RECT split(rcMyCharShip)[12] = {
+		{   0,  0,  40,  40 },
+		{  40,  0,  80,  40 },
+		{  80,  0, 120,  40 },
+		{ 120,  0, 160,  40 },
+
+		{   0, 40,  40,  80 },
+		{  40, 40,  80,  80 },
+		{  80, 40, 120,  80 },
+		{ 120, 40, 160,  80 },
+
+		{   0, 80,  40, 120 },
+		{  40, 80,  80, 120 },
+		{  80, 80, 120, 120 },
+		{ 120, 80, 160, 120 },
+	};
+
+	sub_127D94(&stereocamera, 0.5f);
+
+	char frame_no = (gMC.direct * 4) + gMC.ani_no;
+	if (gMC.equip & 8)
+		PutBitmap3(&grcFull, (gMC.x / 0x400) - (frame->x / 0x400) - 12, (gMC.y / 0x400) - (frame->y / 0x400) - 12, &rcMyCharShip[frame_no], SURFACE_ID_MYCHAR3, -1);
+	else if (gMC.equip & 1)
+		PutBitmap3(&grcFull, (gMC.x / 0x400) - (frame->x / 0x400), (gMC.y / 0x400) - (frame->y / 0x400), &rcMyChar[frame_no], SURFACE_ID_MYCHAR, -1);
+	else
+		PutBitmap3(&grcFull, (gMC.x / 0x400) - (frame->x / 0x400), (gMC.y / 0x400) - (frame->y / 0x400), &rcMyChar[frame_no], SURFACE_ID_MYCHAR2, -1);
+
+	sub_127D94(&stereocamera, 0.0f);
 }
 
 typedef void (*MyCharAct)(Caret*, CaretSpawner*);

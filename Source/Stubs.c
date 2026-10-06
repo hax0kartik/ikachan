@@ -16,4 +16,9 @@ STUB(_ZN2nn3srv6detail7Service16GetServiceHandleEPNS_6HandleEPKcij)
 STUB(sub_127D94)
 STUB(_ZN2nn2os18GetUsingMemorySizeEv)
 STUB(_Z15PlaySoundObjectii)
+STUB(FogTexture_SetPixel)
+STUB(FogTexture_Flush)
 #undef STUB
+
+// Data placeholders for objects that aren't decompiled yet (sized like the original)
+char __attribute__((section("i.gFogTexture"))) gFogTexture[0xF0]; // RawTexture

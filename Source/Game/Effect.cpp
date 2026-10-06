@@ -193,3 +193,33 @@ int FindCaretSpawner(CaretSpawner *caretSpawner)
     }
     return NO_CARET;
 }
+
+void ProcCaretSpawner(CaretSpawner *caretSpawner, Caret *caret)
+{
+    int i, j;
+
+    for (i = 0; i < MAX_CARET_SPAWNERS; i++, caretSpawner++)
+    {
+        if (caretSpawner->cond)
+        {
+            caretSpawner->cond = false;
+            for (j = 0; j < caretSpawner->num; j++)
+            {
+                //Spawn a caret in a free slot
+                int caret_i = FindCaret(caret);
+                if (caret_i != NO_CARET)
+                {
+                    Caret *setCaret = &caret[caret_i];
+                    setCaret->type = caretSpawner->type;
+                    setCaret->ani_wait = 0;
+                    setCaret->ani_no = caretSpawner->ani_no;
+                    setCaret->x = caretSpawner->x + (Random(-caretSpawner->rand_x, caretSpawner->rand_x) << 10);
+                    setCaret->y = caretSpawner->y + (Random(-caretSpawner->rand_y, caretSpawner->rand_y) << 10);
+                    setCaret->xm = Random(caretSpawner->rand_moveleft, caretSpawner->rand_moveright);
+                    setCaret->ym = Random(caretSpawner->rand_moveup, caretSpawner->rand_movedown);
+                    setCaret->cond = true;
+                }
+            }
+        }
+    }
+}

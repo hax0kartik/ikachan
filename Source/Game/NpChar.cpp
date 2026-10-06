@@ -195,6 +195,115 @@ void PutNpChar07(NpChar *npc, Frame *frame)
     }
 }
 
+void PutNpChar08(NpChar *npc, Frame *frame)
+{
+    static RECT rcNpc08[9] = {
+        {  0,  0, 16, 16 },
+        {  0, 16, 16, 32 },
+        { 16,  0, 32, 16 },
+        { 32,  0, 48, 16 },
+        { 32, 16, 48, 32 },
+        { 48,  0, 64, 16 },
+        { 48, 16, 64, 32 },
+        { 48, 32, 64, 48 },
+        { 48, 48, 64, 64 },
+    };
+
+    if (npc->cond != false)
+    {
+        PutBitmap3(&grcFull,
+                   (npc->x / 0x400) - (frame->x / 0x400),
+                   (npc->y / 0x400) - (frame->y / 0x400) + 1,
+                   &rcNpc08[npc->ani_no],
+                   SURFACE_ID_HARI + npc->code_char, -1);
+    }
+}
+
+void PutNpChar09(NpChar *npc, Frame *frame)
+{
+    static RECT rcNpc09[6] = {
+        {  0,  0, 16, 16 },
+        {  0, 16, 16, 32 },
+        {  0, 32, 16, 48 },
+        { 16,  0, 32, 16 },
+        { 16, 16, 32, 32 },
+        { 16, 32, 32, 48 },
+    };
+
+    if (npc->cond != false)
+    {
+        char rectIdx = npc->ani_no + npc->direct * 3;
+        PutBitmap3(&grcFull,
+                   (npc->x / 0x400) - (frame->x / 0x400),
+                   (npc->y / 0x400) - (frame->y / 0x400),
+                   &rcNpc09[rectIdx],
+                   SURFACE_ID_HARI + npc->code_char, -1);
+    }
+}
+
+void PutNpChar10(NpChar *npc, Frame *frame)
+{
+    static RECT rcNpc10[4] = {
+        {  0,  0, 16, 16 },
+        {  0, 16, 16, 32 },
+        { 16,  0, 32, 16 },
+        { 16, 16, 32, 32 },
+    };
+
+    if (npc->cond != false)
+    {
+        char rectIdx = npc->direct * 2 + npc->ani_no;
+        PutBitmap3(&grcFull,
+                   (npc->x / 0x400) - (frame->x / 0x400),
+                   (npc->y / 0x400) - (frame->y / 0x400),
+                   &rcNpc10[rectIdx],
+                   SURFACE_ID_HARI + npc->code_char, -1);
+    }
+}
+
+typedef void (*NPCPUT)(NpChar*, Frame*);
+NPCPUT split(gpNpcPutTbl)[] = {
+    PutNpChar00,
+    PutNpChar01,
+    PutNpChar02,
+    PutNpChar03,
+    PutNpChar04,
+    PutNpChar05,
+    PutNpChar01,
+    PutNpChar06,
+    PutNpChar00,
+    PutNpChar07,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    PutNpChar08,
+    PutNpChar09,
+    PutNpChar10,
+};
+
+extern "C" void sub_127D94(u32*, float);
+extern u32 stereocamera;
+
+void PutNpChar(NpChar *npc, Frame *frame)
+{
+    sub_127D94(&stereocamera, 0.5f);
+
+    for (int i = 0; i < MAX_NPCS; i++, npc++)
+    {
+        if (npc->cond)
+        {
+            NPCPUT put = gpNpcPutTbl[npc->code_char];
+            if (put)
+                put(npc, frame);
+        }
+    }
+
+    sub_127D94(&stereocamera, 0.0f);
+}
+
 void ActNpChar01(NpChar *npc)
 {
     //Increment animation timer
