@@ -15,4 +15,4 @@ inflate_blocks,001388e0,3544,O
 inflate_codes,0011f2e8,2000,O
 inflate_trees_dynamic,0013991c,564,m
 crc32,0011d4a0,404,O
-huft_build,0011ebd0,1728,M
+huft_build,0011ebd0,1720,O

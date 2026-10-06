@@ -13,7 +13,7 @@ _ZN2nn3snd3CTR16DspFxManagerImpl17ForceUpdateParamsEv,001152cc,88,U
 _ZN2nn3snd3CTR17MasterManagerImpl10InitializeEv,0011532c,40,U
 _ZN2nn3snd3CTR17MasterManagerImpl17ForceUpdateParamsEv,00115510,232,U
 _ZN2nn3snd3CTR20InitializeWaveBufferEPNS1_10WaveBufferE,00115608,36,U
-_ZN2nn3snd3CTR5Voice10InitializeEv,0011562c,208,U
+_ZN2nn3snd3CTR5Voice10InitializeEv,0011562c,220,U
 _ZN2nn3snd3CTR6Dspsnd13SendParameterEv,00115878,300,U
 nn::snd::CTR::DspFxManager::GetInstance,00124f5c,8,U
 nn::snd::CTR::VoiceManager::Initialize,001297c4,32,U
@@ -37,5 +37,5 @@ _ZN2nn3snd3CTR6Dspsnd26SetChannelIIRFilter_BiquadEhsssss,00131694,112,U
 _ZN2nn3snd3CTR9VoiceImpl12SetMixVolumeEv,00131758,228,U
 _ZN2nn3snd3CTR9VoiceImpl14SendWaveBufferEv,00131840,508,U
 _ZN2nn3snd3CTR15GetSampleLengthEiNS1_12SampleFormatEi,0013d288,108,U
-_ZN2nn3snd3CTR5VoiceC1Ei,0013d2f4,60,U
+_ZN2nn3snd3CTR5VoiceC1Ei,0013d2f4,64,U
 _ZN2nn3snd3CTR9VoiceImplC1Ei,0013d384,120,U

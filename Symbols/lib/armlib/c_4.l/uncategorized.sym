@@ -32,7 +32,7 @@ __support_ldexp,00136818,224,U,gdef
 _initio,00136ac4,332,O,gdef
 ferror,00136cdc,12,O,gdef
 __flsbuf_wide,00136ce8,804,m,gdef
-__rt_SIGRTRED,0013fd34,16,m,gdef
+__rt_SIGRTRED,0013fd34,16,M,gdef
 strncmp,00112010,220,U,gdef
 longjmp,0011e8dc,64,O,sub
 __set_errno,001203cc,20,O,gdef

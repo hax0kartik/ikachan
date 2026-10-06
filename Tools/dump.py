@@ -81,7 +81,7 @@ def main() -> None:
     start_addr = symbol[1] 
     end_addr = symbol[1] + sym_size
 
-    cmd = f"arm-none-eabi-objdump -D -EL -b binary -m arm --adjust-vma=0x100000 --start-address={start_addr} --stop-address={end_addr} --no-show-raw-insn code.bin"
+    cmd = f"arm-none-eabi-objdump -D -EL -b binary -m arm --adjust-vma=0x100000 --start-address={start_addr} --stop-address={end_addr} --no-show-raw-insn orig/code.bin"
 
     ret = subprocess.run(cmd, shell=True, capture_output=True)
     process(ret.stdout.decode("utf-8").splitlines())

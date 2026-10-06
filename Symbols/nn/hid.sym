@@ -2,7 +2,7 @@ nn::hid::CTR::GetTouch,0010753c,8,U
 nn::hid::CTR::GetPad,00107548,8,U
 _ZN2nn3hid3CTR9PadReaderC1ERNS1_3PadE,00107554,52,U
 _ZN2nn3hid3CTR10InitializeEv,0010dc78,16,U
-_ZN2nn3hid3CTR18AnalogStickClamperC1Ev,0010dc90,88,U
+_ZN2nn3hid3CTR18AnalogStickClamperC1Ev,0010dc90,100,U
 _ZN2nn3hid3CTR10HidDevices10InitializeEPKc,00114b1c,280,U
 _ZN2nn3hid3CTR16TouchPanelReader10ReadLatestEPNS1_16TouchPanelStatusE,0011b614,132,U
 _ZN2nn3hid3CTR6detail3Ipc13GetIPCHandlesEPNS_6HandleES5_S5_S5_S5_S5_,0011b698,116,U

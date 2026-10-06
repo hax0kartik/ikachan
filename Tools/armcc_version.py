@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Estimate which armcc (RVCT 4.x) toolchain build a code.bin was linked with.
 
-Usage: python Tools/armcc_version.py [code.bin] [--base 0x100000] [--patterns Tools/patterns.json]
+Usage: python Tools/armcc_version.py [orig/code.bin] [--base 0x100000] [--patterns Tools/patterns.json]
 
 Searches the binary for library routines whose code differs between toolchain
 builds, using the byte patterns in patterns.json (made by Tools/build_patterns.py),
@@ -46,7 +46,7 @@ def sort_key(b):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument('code', nargs='?', default='code.bin')
+    ap.add_argument('code', nargs='?', default='orig/code.bin')
     ap.add_argument('--base', default='0x100000', help='load address of the binary (default 0x100000)')
     ap.add_argument('--patterns', default=os.path.join(HERE, 'patterns.json'))
     args = ap.parse_args()

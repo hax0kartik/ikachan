@@ -19,10 +19,10 @@ def main():
     syms_minor = 0
     syms_ok = 0
     syms_total = 0
-    bytes_ok = get_matching_bytes("code.bin", getBuildPath() + "/code.bin")
+    bytes_ok = get_matching_bytes("orig/code.bin", getBuildPath() + "/code.bin")
     addrs = []
     addrs_changed = False
-    code_bin_size = os.path.getsize('code.bin')
+    code_bin_size = os.path.getsize('orig/code.bin')
 
     unnamed_syms = read_sym_file('Symbols/Unnamed.sym')
     for sym in unnamed_syms:

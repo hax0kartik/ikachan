@@ -89,7 +89,7 @@ def rank_symbol(sym, decomp_sym):
 
     # Identical bytes can only diff as OK, so skip launching asm-differ for them
     if decomp_size == sym_size:
-        base, mine = _image('code.bin'), _image(f'{getBuildPath()}/code.bin')
+        base, mine = _image('orig/code.bin'), _image(f'{getBuildPath()}/code.bin')
         o, d = sym[1] - 0x00100000, decomp_sym[0] - 0x00100000
         if (base is not None and mine is not None
                 and 0 <= o and o + sym_size <= len(base) and 0 <= d and d + sym_size <= len(mine)

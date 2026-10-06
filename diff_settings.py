@@ -1,7 +1,7 @@
 import os
 
 def apply(config, args):
-    config["baseimg"] = "code.bin"
+    config["baseimg"] = "orig/code.bin"
     config["myimg"] = "Build/code.bin"
     config["source_directories"] = ["."]
     config["arch"] = "armel"
