@@ -10,3 +10,4 @@ _Z19JudgeHitMyCharBlockiic,001120f0,1032,O
 _Z18JudgeHitMyCharItemiiP12CaretSpawnerP3Map,00113444,428,U
 _Z19JudgeHitMyCharSnackiihP12CaretSpawnerP3Map,001124fc,1080,U
 ActMyChar_Normal,00137fa8,1004,U
+PutMyStatus,0010cc1c,972,U

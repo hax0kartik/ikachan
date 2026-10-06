@@ -51,3 +51,4 @@ nngxlowRequestDMAEx,00130cac,20,U
 nngxlowSetDisplayTransfer,00130cc0,32,U
 nngxlowSetMemoryFill,00130ce0,32,U
 nngxlowSetTextureCopy,00130d00,32,U
+nngxGetPhysicalAddr,001243e4,4,U

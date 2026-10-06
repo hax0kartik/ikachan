@@ -39,3 +39,6 @@ _ZN2nn3snd3CTR9VoiceImpl14SendWaveBufferEv,00131840,508,U
 _ZN2nn3snd3CTR15GetSampleLengthEiNS1_12SampleFormatEi,0013d288,108,U
 _ZN2nn3snd3CTR5VoiceC1Ei,0013d2f4,64,U
 _ZN2nn3snd3CTR9VoiceImplC1Ei,0013d384,120,U
+__sti___16_snd_FxReverb_cpp,00141058,24,U
+__sti___20_snd_VoiceManager_cpp,00141524,144,U
+__sti___25_snd_MasterManagerImpl_cpp,00141b18,44,U

@@ -22,3 +22,4 @@ _ZN2nn3fnd6detail10FreeToHeapEPNS1_11ExpHeapImplEPv,00134db4,312,U
 _ZN2nn3fnd11ExpHeapBase8FinalizeEv,0013d0d4,40,U
 _ZN2nn3fnd6detail16RemoveListObjectEPNS1_10NNSFndListEPv,0013d0fc,96,U
 _ZN2nn3fnd6detail20NNSi_FndFinalizeHeapEPNS1_11ExpHeapImplE,0013d15c,116,U
+__sti___16_fnd_DateTime_cpp,00140ed4,36,U

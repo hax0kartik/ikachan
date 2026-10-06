@@ -3,3 +3,5 @@ _ZN2nn3srv6detail7ConnectEPKc,0010e36c,144,U
 _ZN2nn3srv18EnableNotificationEPNS_2os9SemaphoreE,0010e40c,56,U
 _ZN2nn3srv6detail7Service14RegisterClientEv,00115f90,52,U
 _ZN2nn3srv6detail7Service16GetServiceHandleEPNS_6HandleEPKcij,0012b638,84,U
+_ZN2nn3srv16GetServiceHandleEPNS_6HandleEPKc,00124ffc,40,U
+_ZN2nn3srv10InitializeEv,0012807c,88,U

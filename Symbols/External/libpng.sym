@@ -57,3 +57,4 @@ png_destroy_struct,0011d280,16,O
 png_zfree,0011d290,4,M
 png_info_destroy,00127610,108,M
 png_memcpy_check,00135124,20,M
+png_default_read_data,00139b50,60,M

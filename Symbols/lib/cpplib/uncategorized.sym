@@ -58,3 +58,10 @@ _ZN4__rw16__rw_facet_makerISt5ctypeIcEE13_C_maker_funcEiPKcj,001460b8,120,U,gdef
 _ZN4__rw18__rw_locale_vectorIPNS_15__rw_facet_baseEED2Ev,00146130,24,U,gdef
 _ZNKSt8messagesIcE6do_getEiiiRKSs,001468cc,196,U,gdef
 _ZdaPv,00127088,12,U,gdef
+_ZNSt6localeC2Ev,001325a0,52,U
+_ZN4__rw15__rw_locale_impD2Ev,00133b80,36,U
+_Z7catopenPKci,0013a774,48,U
+_ZNSt18__rw_open_cat_dataD2Ev,0013f910,20,U
+_ZNSt18__rw_open_cat_dataaSERKS_,0013f924,32,U
+_ZNSt12ctype_bynameIcED0Ev,0013fae8,16,U
+_ZNSt6localeaSERKS_,0013fc1c,96,U
