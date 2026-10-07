@@ -1,5 +1,5 @@
-InitEventScript,0010a2e4,68,U
-GetEventScriptNo,001233bc,116,U
+_Z15InitEventScriptP8EventScr,0010a2e4,68,O
+_Z16GetEventScriptNoP8EventScr,001233bc,116,O
 _Z9PutMsgBoxP8EventScr,001256e0,344,U
 EventScriptProc,0012585c,5220,U
 LoadEventScript,0010c97c,140,U

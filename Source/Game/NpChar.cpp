@@ -434,13 +434,13 @@ void ActNpChar03(NpChar *npc)
                 npc->ani_wait = 0;
                 if (++npc->ani_no > 3)
                     npc->ani_no = 3;
-                return;
             }
         }
-        if (++npc->ani_wait > 5)
+        else if (++npc->ani_wait > 5)
         {
             npc->ani_wait = 0;
-            if (--npc->ani_no < 0)
+            char ani_no = --npc->ani_no;
+            if (ani_no < 0)
                 npc->ani_no = 0;
         }
     }
