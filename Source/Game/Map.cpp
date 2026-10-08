@@ -12,6 +12,18 @@
 extern "C" void sub_127D94(u32*, float);
 extern u32 stereocamera;
 
+void FreeMapBuffers(Map *map)
+{	
+	if (map->data)
+		delete[] map->data;
+
+	if (map->atrb != NULL)
+		delete[] map->atrb;
+
+	map->atrb = NULL;
+	map->data = NULL;
+}
+
 RECT rcBack[2] = {
 		{ 0, 0, 32, 32 },
 		{ 32, 0, 64, 32 },
@@ -74,6 +86,13 @@ void PutMapBack(Map *map, int fx, int fy)
 			}
 		}
 	}
+}
+
+u8 Map::GetAtrb(int tile)
+{
+	if (tile < 0 || tile >= 0x100)
+		return 0;
+	return atrb[tile];
 }
 
 void PutMapFront(Map *map, int fx, int fy)

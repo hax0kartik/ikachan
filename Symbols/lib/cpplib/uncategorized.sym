@@ -8,7 +8,7 @@ _ZSt13__rw_get_catsv,0011e560,80,U,gdef
 _ZN4__rw21__rw_use_c_lib_localeC2EPKci,0011e5c0,92,U,gdef
 _ZNSs9_C_getRepEjj,00120ef8,188,U,gdef
 _ZNSt11char_traitsIcE4copyEPcPKcj,00120fbc,20,U,gdef
-_ZdlPv,00120fd0,64,U,gdef
+_ZdlPv,00120fd0,64,M,gdef
 _ZNSt6locale7_C_initEv,00121014,152,U,gdef
 _ZNSs9_C_unlinkEv,00121348,112,U,gdef
 _ZNSsC2ERKSs,001213c0,96,U,gdef
@@ -57,7 +57,7 @@ _ZNSt8messagesIcED2Ev,0013fc8c,24,U,gdef
 _ZN4__rw16__rw_facet_makerISt5ctypeIcEE13_C_maker_funcEiPKcj,001460b8,120,U,gdef
 _ZN4__rw18__rw_locale_vectorIPNS_15__rw_facet_baseEED2Ev,00146130,24,U,gdef
 _ZNKSt8messagesIcE6do_getEiiiRKSs,001468cc,196,U,gdef
-_ZdaPv,00127088,12,U,gdef
+_ZdaPv,00127088,12,O,gdef
 _ZNSt6localeC2Ev,001325a0,52,U
 _ZN4__rw15__rw_locale_impD2Ev,00133b80,36,U
 _Z7catopenPKci,0013a774,48,U

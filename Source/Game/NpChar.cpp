@@ -1029,7 +1029,7 @@ void ActNpChar(NpChar *npc)
 }
 
 //NPC collision
-s8 JudgeHitNpCharBlock(NpChar *npc, int x, int y, u8 flag)
+char JudgeHitNpCharBlock(NpChar *npc, int x, int y, char flag)
 {
     if ((flag & 1) && (flag & 2))
     {
@@ -1100,5 +1100,48 @@ s8 JudgeHitNpCharBlock(NpChar *npc, int x, int y, u8 flag)
     }
     
     return npc->flag;
+}
+
+void HitNpCharMap(NpChar *npc, Map *map)
+{
+    //Collision offsets and flags
+    char offx[4] = { 0, 1, 0, 1 };
+    char offy[4] = { 0, 0, 1, 1 };
+    u8 flag1[4] = { 0, 0, 1, 1 };
+    char flag2[4] = { 1 | 2, 4 | 2, 8 | 1, 8 | 4 };
+    int i, j;
+
+    for (i = 0; i < MAX_NPCS; i++, npc++)
+    {
+        if (npc->cond == false)
+            continue;
+
+        //Get collision position and reset state
+        int x = npc->x / 0x400 / 16;
+        int y = npc->y / 0x400 / 16;
+        char v4 = 2;
+        npc->flag = 0;
+
+        for (j = 0; j < 4; j++)
+        {
+            //Get the attribute of the tile to check
+            u8 atrb = map->GetAtrb(map->data[(x + offx[j]) + (y + offy[j]) * map->width]);
+
+            //Block collision
+            if (atrb == 0x41 || atrb == 0x43 || atrb == 0x44)
+            {
+                if ((JudgeHitNpCharBlock(npc, x + offx[j], y + offy[j], flag2[j]) & 8) == 0)
+                    v4 -= flag1[j];
+            }
+            else
+            {
+                v4 -= flag1[j];
+            }
+        }
+
+        //Set airborne flag
+        if (v4 < 1)
+            npc->airborne = true;
+    }
 }
 

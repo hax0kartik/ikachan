@@ -3,6 +3,8 @@
 #include "Game/Player.h"
 #include "Game/Sound.h"
 #include "Game/System.h"
+#include "Game/Rect.h"
+#include "Game/Draw.h"
 
 char item_equip[12] = { 0x00, 0x01, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x02, 0x00, 0x00, 0x08 };
 
@@ -84,4 +86,45 @@ void MoveItem(Items *items, EventScr *event_scr)
 			event_scr->mode = 1;
 		}
 	}
+}
+
+RECT grcFrame = { 0, 0, 176, 32 };
+RECT grcItem = { 0, 0, 0, 16 };
+RECT grcCursor = {32, 0, 48, 16};
+
+extern RECT grcFull;
+
+void PutItem(Items *items, int color)
+{
+	RECT rcFrame = grcFrame;
+	RECT rcItem = grcItem;
+	RECT rcCursor = grcCursor;
+
+	PutBitmap3(&grcFull, 114, 104, &rcFrame,
+			   SURFACE_ID_ITEMBOX, color);
+
+	for (int i = 0; i < MAX_ITEMS; i++)
+	{
+		rcItem.left = ((items->code[i] - 1) % 6) * 16;
+		rcItem.top = ((items->code[i] - 1) / 6) * 16;
+		rcItem.right = rcItem.left + 16;
+		rcItem.bottom = rcItem.top + 16;
+
+		if (rcItem.left >= 0)
+			PutBitmap3(
+				&grcFull,
+				(404 - (16 * MAX_ITEMS)) / 2 + i * 16,
+				(192 / 2) + 16,
+				&rcItem,
+				SURFACE_ID_ITEM,
+				color);
+	}
+
+	PutBitmap3(
+		&grcFull,
+		(404 - (16 * MAX_ITEMS)) / 2 
+		+ items->selected_item * 16,
+		(192 / 2) + 16,
+		&rcCursor,
+		SURFACE_ID_CURSOR, color);
 }

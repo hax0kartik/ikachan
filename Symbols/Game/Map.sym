@@ -3,5 +3,5 @@ _Z9MoveFrameP5FrameP6NpCharP3Map,00109918,312,O
 _Z10PutMapBackP3Mapii,0010a338,648,M
 _Z11PutMapFrontP3Mapii,00126ce4,304,O
 LoadMapData,0010b97c,536,U
-ResetMapBuffers,0010b94c,48,U
-MapGetAttrb,00126eec,20,U
+_Z14FreeMapBuffersP3Map,0010b94c,48,O
+_ZN3Map7GetAtrbEi,00126eec,20,O

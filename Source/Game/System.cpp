@@ -3,6 +3,8 @@
 
 u32 gKey = 0, gKeyTrg = 0;
 
+System split(gSystem);
+
 int Random(int min, int max)
 {
     const int range = max - min + 1;
