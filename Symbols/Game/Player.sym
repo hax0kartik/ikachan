@@ -5,7 +5,6 @@ _Z13ActMyCharShipP5CaretP12CaretSpawner,0013b278,168,O
 _Z9ActMyCharP5CaretP12CaretSpawner,001098b4,20,O
 _Z9PutMyCharP5Frame,0010ca08,412,O
 _Z12HitMyCharMapP3MapP12CaretSpawner,0010c170,932,U
-_Z15HitMyCharNpCharP6NpCharP8EventScrP12CaretSpawner,0010c52c,1104,U
 _Z19JudgeHitMyCharBlockiic,001120f0,1032,O
 _Z18JudgeHitMyCharItemiiP12CaretSpawnerP3Map,00113444,428,O
 _Z19JudgeHitMyCharSnackiicP12CaretSpawnerP3Maph,001124fc,1088,U

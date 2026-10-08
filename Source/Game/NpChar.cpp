@@ -3,6 +3,9 @@
 #include "Game/Player.h"
 #include "Game/Map.h"
 #include "Game/Draw.h"
+#include "Game/EventScript.h"
+#include "Game/Effect.h"
+#include "Game/Sound.h"
 
 void InitNpChar(NpChar *npc)
 {
@@ -304,6 +307,88 @@ void PutNpChar(NpChar *npc, Frame *frame)
     sub_127D94(&stereocamera, 0.0f);
 }
 
+void ActNpChar00(NpChar *npc)
+{
+    MyChar *mc = &gMC;
+    switch (npc->act_no)
+    {
+        case 0:
+            //Move towards target
+            if (npc->x > npc->tgt_x)
+                npc->xm -= 6;
+            if (npc->x < npc->tgt_x)
+                npc->xm += 6;
+            if (npc->y > npc->tgt_y)
+                npc->ym -= 4;
+            if (npc->y < npc->tgt_y)
+                npc->ym += 4;
+
+            //Face direction moving
+            if (npc->xm < 0)
+                npc->direct = 0;
+            if (npc->xm > 0)
+                npc->direct = 1;
+
+            //Animate
+            if (++npc->ani_wait > 60)
+            {
+                npc->ani_wait = 0;
+                if (++npc->ani_no > 1)
+                    npc->ani_no = 0;
+            }
+
+            //Limit speed
+            if (npc->xm > 0x800)
+                npc->xm = 0x800;
+            if (npc->xm < -0x800)
+                npc->xm = -0x800;
+            if (npc->ym > 0x800)
+                npc->ym = 0x800;
+            if (npc->ym < -0x800)
+                npc->ym = -0x800;
+
+            //Move
+            npc->x += npc->xm;
+            npc->y += npc->ym;
+
+            //Puff up if Ikachan is nearby (and doesn't have a pearl)
+            if (npc->act_wait > 0)
+                npc->act_wait--;
+            if (npc->act_wait == 0 && !(mc->equip & 4) &&
+                npc->x - 0xA000 < mc->x && npc->x + 0xA000 > mc->x &&
+                npc->y - 0xA000 < mc->y && npc->y + 0xA000 > mc->y)
+            {
+                if (npc->type == 2)
+                    npc->act_no = 1;
+                npc->act_wait = 300;
+            }
+            break;
+
+        case 1:
+            //Face towards Ikachan
+            if (npc->x > mc->x)
+                npc->direct = 0;
+            if (npc->x < mc->x)
+                npc->direct = 1;
+
+            //Animate
+            if (++npc->ani_wait > 2)
+            {
+                npc->ani_wait = 0;
+                if (++npc->ani_no > 3)
+                    npc->ani_no = 2;
+            }
+
+            //Stop puffing up after 100 frames
+            if (--npc->act_wait <= 200)
+            {
+                npc->act_no = 0;
+                npc->ani_no = 0;
+            }
+            break;
+    }
+}
+
 void ActNpChar01(NpChar *npc)
 {
     //Increment animation timer
@@ -465,7 +550,10 @@ void ActNpChar04(NpChar *npc)
         npc->direct = 1;
     if ((npc->x - 0x8000) < gMC.x && (npc->x + 0x8000) > gMC.x && (npc->y - 0x8000) < gMC.y && (npc->y + 0x8000) > gMC.y)
         npc->direct = 2;
-    npc->act_no = (npc->y + 0x2000) > gMC.y;
+    if ((npc->y + 0x2000) > gMC.y)
+        npc->act_no = 1;
+    else
+        npc->act_no = 0;
     
     //Animate
     if (++npc->ani_wait > 8)
@@ -474,6 +562,16 @@ void ActNpChar04(NpChar *npc)
         if (++npc->ani_no > 1)
             npc->ani_no = 0;
     }
+    
+    //Limit speed
+    if (npc->xm > 0x400)
+        npc->xm = 0x400;
+    if (npc->xm < -0x400)
+        npc->xm = -0x400;
+    if (npc->ym > 0x400)
+        npc->ym = 0x400;
+    if (npc->ym < -0x400)
+        npc->ym = -0x400;
     
     //Move
     npc->x += npc->xm;
@@ -532,8 +630,381 @@ void ActNpChar06(NpChar *npc)
     }
 }
 
+void ActNpChar08(NpChar *npc)
+{
+    //Move
+    npc->x += npc->xm;
+    if (npc->ym < 0x800)
+        npc->ym += 20;
+    npc->y += npc->ym;
+    if ((npc->y + 0x2000) > gMC.y)
+        npc->act_no = 1;
+    else
+        npc->act_no = 0;
+
+    switch (npc->act_wait)
+    {
+        case 0:
+            //Wait, then jump
+            if (++npc->ani_wait > 30)
+            {
+                npc->ani_wait = 0;
+                npc->ani_no = 1;
+                npc->act_wait = 1;
+                npc->ym = -0x76D;
+                if (!npc->direct)
+                {
+                    npc->xm = 0x200;
+                    npc->xm = -npc->xm;
+                }
+                else
+                {
+                    npc->xm = 0x200;
+                }
+            }
+            break;
+        case 1:
+            //Falling frame
+            if (npc->ym > 0)
+                npc->ani_no = 2;
+
+            //Hit ceiling
+            if ((npc->flag & 2) && npc->ym < 0)
+                npc->ym = 0;
+
+            //Bounce off walls
+            if ((npc->flag & 4) && npc->direct == 1)
+            {
+                npc->direct = 0;
+                npc->xm = -0x200;
+            }
+            if ((npc->flag & 1) && npc->direct == 0)
+            {
+                npc->direct = 1;
+                npc->xm = 0x200;
+            }
+
+            //Land
+            if ((npc->flag & 8) && npc->ym > 0)
+            {
+                npc->xm = 0;
+                npc->act_wait = 0;
+                npc->ani_no = 0;
+            }
+            break;
+    }
+}
+
+void ActNpChar07(NpChar *npc)
+{
+    int wait = npc->act_wait;
+    switch (wait)
+    {
+        case 0:
+            //Wait for Ikachan to come close
+            npc->act_no = 0;
+            if (npc->ym < 0x800)
+                npc->ym += 20;
+            npc->y += npc->ym;
+            ++npc->ani_wait;
+            if (npc->ani_wait > 15)
+            {
+                npc->ani_wait = 0;
+                if (++npc->ani_no > 1)
+                    npc->ani_no = 0;
+            }
+            MyChar *mc = &gMC;
+            int mcx = mc->x;
+            int x = npc->x;
+            if (x <= mcx + 0x7000 && mcx <= x + 0x7000 && npc->y - mc->y - 0x4000 < 0x40000)
+            {
+                npc->ani_wait = 0;
+                npc->ani_no = 2;
+                npc->act_wait = 1;
+            }
+            break;
+        case 1:
+            //Crouch, then jump
+            npc->act_no = 1;
+            if (++npc->ani_wait > 30)
+            {
+                npc->ani_wait = 0;
+                npc->ani_no = 3;
+                npc->act_wait = 2;
+                npc->ym = -0x400;
+            }
+            break;
+        case 2:
+            //Rise until hitting the ceiling
+            npc->act_no = 1;
+            npc->y += npc->ym;
+            ++npc->ani_wait;
+            if (npc->ani_wait > 8)
+            {
+                npc->ani_wait = 0;
+                if (++npc->ani_no > 4)
+                    npc->ani_no = 3;
+            }
+            if (npc->flag & 2)
+            {
+                npc->ani_wait = 0;
+                npc->ani_no = 5;
+                npc->act_wait = 3;
+            }
+            break;
+        case 3:
+            //Fall until landing
+            npc->act_no = 0;
+            if (npc->ym < 0x800)
+                npc->ym += 20;
+            npc->y += npc->ym;
+            if (++npc->ani_wait > 8)
+            {
+                npc->ani_wait = 0;
+                if (++npc->ani_no > 8)
+                    npc->ani_no = 5;
+            }
+            if ((npc->flag & 8) && (npc->ani_no == 5 || npc->ani_no == 6))
+            {
+                npc->ani_wait = 0;
+                npc->ani_no = 5;
+                npc->act_wait = 4;
+            }
+            break;
+        case 4:
+            //Land
+            npc->act_no = 0;
+            if (npc->ym < 0x800)
+                npc->ym += 20;
+            npc->y += npc->ym;
+            if (++npc->ani_wait > 15)
+            {
+                npc->ani_wait = 0;
+                npc->ani_no = 0;
+                npc->act_wait = 0;
+            }
+            break;
+    }
+}
+
+void ActNpChar09(NpChar *npc)
+{
+    if ((npc->y + 0x2000) > gMC.y)
+        npc->act_no = 1;
+    else
+        npc->act_no = 0;
+
+    switch (npc->act_wait)
+    {
+        case 0:
+            //Wait, then dash
+            npc->xm = 0;
+            if (++npc->ani_wait > 30)
+            {
+                npc->ani_wait = 0;
+                npc->ani_no = 1;
+                npc->act_wait = 1;
+                npc->xm = npc->direct == 1 ? 0x400 : -0x400;
+            }
+            break;
+        case 1:
+            //Dash, bouncing off walls, and slow down
+            if (npc->direct == 1 && (npc->flag & 4))
+            {
+                npc->direct = 0;
+                npc->xm = -npc->tgt_x;
+            }
+            else if (npc->direct == 0 && (npc->flag & 1))
+            {
+                npc->direct = 1;
+                npc->xm = -npc->tgt_x;
+            }
+            else
+            {
+                if (npc->direct == 1)
+                {
+                    npc->xm -= 15;
+                    if (npc->xm <= 0)
+                    {
+                        npc->ani_no = 0;
+                        npc->act_wait = 0;
+                    }
+                }
+                else
+                {
+                    npc->xm += 15;
+                    if (npc->xm >= 0)
+                    {
+                        npc->ani_no = 0;
+                        npc->act_wait = 0;
+                    }
+                }
+                npc->tgt_x = npc->xm;
+            }
+            break;
+    }
+
+    npc->x += npc->xm;
+}
+
+void HitMyCharNpChar(NpChar *npc, EventScr *event_scr, CaretSpawner *caret_spawner)
+{
+    bool touch;
+    for (int i = 0; i < MAX_NPCS; i++, npc++)
+    {
+        touch = false;
+        if (npc->cond == false)
+            continue;
+
+        if (npc->type == 3 || (npc->type == 2 && gMC.shock == 0))
+        {
+            //Solid contact
+            if (gMC.x < npc->x + 0x3400 && gMC.x > npc->x + 0x2000 && gMC.y < npc->y + 0x3000 && gMC.y > npc->y - 0x3000)
+            {
+                gMC.x = npc->x + 0x3400;
+                gMC.xm = 0;
+                gMC.flag |= 1;
+                touch = true;
+            }
+            if (gMC.y < npc->y + 0x3400 && gMC.y > npc->y + 0x2000 && gMC.x < npc->x + 0x3000 && gMC.x > npc->x - 0x3000)
+            {
+                if (gMC.ym < -100)
+                    PlaySoundObject(SOUND_ID_HITHEAD, SOUND_MODE_PLAY);
+                gMC.y = npc->y + 0x3400;
+                gMC.ym = 0;
+                gMC.flag |= 2;
+                touch = true;
+            }
+            if (gMC.x > npc->x - 0x3400 && gMC.x + 0x3FF < npc->x - 0x2000 && gMC.y < npc->y + 0x3000 && gMC.y > npc->y - 0x3000)
+            {
+                gMC.x = npc->x - 0x3400;
+                gMC.xm = 0;
+                gMC.flag |= 4;
+                touch = true;
+            }
+            if (gMC.y >= npc->y - 0x3400 && gMC.y < npc->y - 0x2000 && gMC.x > npc->x - 0x3000 && gMC.x < npc->x + 0x3000)
+            {
+                gMC.airborne = false;
+                gMC.y = npc->y - 0x3400;
+                if (gMC.ym > 0)
+                    gMC.ym = 0;
+                gMC.flag |= 8;
+                touch = true;
+            }
+        }
+        else
+        {
+            //Non-solid contact
+            if (npc->type == 0 &&
+                gMC.no_event == 0 &&
+                gMC.x < npc->x + 0x1000 &&
+                npc->x - 0x1000 < gMC.x &&
+                gMC.y < npc->y + 0x1000 &&
+                npc->y - 0x1000 < gMC.y)
+            {
+                //Start NPC's event
+                event_scr->mode = 1;
+                event_scr->x1C = 4;
+                event_scr->event_no = npc->code_event;
+                gMC.no_event = 100;
+                continue;
+            }
+        }
+
+        if (touch && gMC.no_event == 0)
+        {
+            static char npc_damage[] = { 1, 0, 2, 4, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1 };
+            static char npc_defense[] = { 1, 4, 2, 9, 3, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 };
+            static char npc_exp[] = { 1, 0, 3, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1 };
+
+            switch (npc->type)
+            {
+                case 2:
+                    //Hurt Ikachan
+                    if (npc->act_no == 1)
+                    {
+                        if (gMC.x < npc->x)
+                            gMC.xm = -0x400;
+                        if (gMC.x > npc->x)
+                            gMC.xm = 0x400;
+                        DamageMyChar(caret_spawner, npc_damage[npc->code_char]);
+                    }
+
+                    //Check if we should hurt the NPC
+                    if (gMC.flag != 0 && gMC.unit == 1 && gMC.flag != 8 || (gMC.flag & 2) && (gMC.equip & 1))
+                    {
+                        if (npc_defense[npc->code_char] <= gMC.level)
+                        {
+                            //Award us experience
+                            PlaySoundObject(SOUND_ID_WIN, SOUND_MODE_PLAY);
+                            gMC.exp += npc_exp[npc->code_char];
+                            gMC.exp_wait = 20;
+                            int exp_i = FindCaretSpawner(caret_spawner);
+                            if (exp_i != 0xFFFFFF)
+                            {
+                                CaretSpawner *caretsp = &caret_spawner[exp_i];
+                                caretsp->cond = true;
+                                caretsp->type = 2;
+                                caretsp->ani_no = npc_exp[npc->code_char] + 10;
+                                caretsp->num = 1;
+                                caretsp->x = npc->x + 0x2000;
+                                caretsp->y = npc->y - 0x1000;
+                                caretsp->rand_x = 1;
+                                caretsp->rand_y = 0;
+                            }
+
+                            //Destroy the NPC
+                            npc->cond = false;
+                            int dead_i = FindCaretSpawner(caret_spawner);
+                            if (dead_i != 0xFFFFFF)
+                            {
+                                CaretSpawner *caretsp = &caret_spawner[dead_i];
+                                caretsp->cond = true;
+                                caretsp->type = 0;
+                                caretsp->ani_no = 0;
+                                caretsp->num = 6;
+                                caretsp->x = npc->x + 0x2000;
+                                caretsp->y = npc->y + 0x2000;
+                                caretsp->rand_moveright = 0x800;
+                                caretsp->rand_moveleft = -0x800;
+                                caretsp->rand_movedown = -0x200;
+                                caretsp->rand_moveup = -0x800;
+                                caretsp->rand_x = 8;
+                                caretsp->rand_y = 8;
+                            }
+
+                            //Start NPC's event
+                            event_scr->mode = 1;
+                            event_scr->x1C = 4;
+                            event_scr->event_no = npc->code_event;
+                            gMC.no_event = 100;
+                            continue;
+                        }
+                        else
+                        {
+                            //The NPC was too strong
+                            if (gMC.no_event == 0)
+                                PlaySoundObject(SOUND_ID_NODMG, SOUND_MODE_PLAY);
+                            gMC.no_event = 100;
+                        }
+                    }
+                    break;
+
+                case 3:
+                    //Start NPC's event
+                    event_scr->mode = 1;
+                    event_scr->x1C = 4;
+                    event_scr->event_no = npc->code_event;
+                    gMC.no_event = 100;
+                    break;
+            }
+        }
+    }
+}
+
 typedef void (*NPCACT)(NpChar*);
 NPCACT gpNpcActTbl[] = {
+    ActNpChar00,
     ActNpChar01,
     ActNpChar02,
     ActNpChar03,
