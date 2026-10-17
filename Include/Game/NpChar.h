@@ -7,13 +7,13 @@ struct NpChar {
     bool cond;
     char type;
     char code_char;
-    u16 code_event;
+    s16 code_event;
     s16 act_wait;
     char act_no;
     char ani_no;
     short ani_wait;
     u8 direct;
-    u8 flag;
+    char flag;
     bool airborne;
     int x;
     int y;

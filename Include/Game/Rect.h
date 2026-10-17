@@ -3,8 +3,8 @@
 
 struct RECT
 {
-    u32 left;
-    u32 top;
-    u32 right;
-    u32 bottom;
+    int left;
+    int top;
+    int right;
+    int bottom;
 };
