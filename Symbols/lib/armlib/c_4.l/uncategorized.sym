@@ -21,13 +21,13 @@ memcmp,00123f30,176,O,gdef
 strcmp,00124660,184,O,gdef
 strncpy,00124858,104,U,gdef
 snputc,00130d74,24,U,gdef
-__c89vsnprintf,00130dec,88,m,gdef
+__c89vsnprintf,00130dec,88,O,gdef
 __ARM_common_memcpy4_6,00135058,20,U,gdef
 _btod_d2e,0013535c,56,O,gdef
 _btod_ediv,00135394,48,O,gdef
 _btod_edivd,001353c4,48,O,gdef
 _btod_emuld,001353f4,48,O,gdef
-_e2d,00135fac,88,m,gdef
+_e2d,00135fac,88,O,gdef
 __support_ldexp,00136818,224,M,gdef
 _initio,00136ac4,332,O,gdef
 ferror,00136cdc,12,O,gdef
