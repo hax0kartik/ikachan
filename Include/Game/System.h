@@ -19,4 +19,14 @@ enum WND_SIZE
 	WS_320x240,
 };
 
+struct System {
+
+};
+
+extern System gSystem;
+
+void BeginFrame(System *system);
+void EndFrame(System *system);
+void ProcessSystemEvents();
+
 int Random(int min, int max);

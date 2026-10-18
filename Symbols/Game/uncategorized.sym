@@ -10,6 +10,10 @@ RebuildFogOfWar,00112f3c,180,U
 custom_malloc,00121bbc,96,U
 GetVRamRemainingSpace,00121f3c,68,U
 printf_input_char,00122498,20,U
+_ZN7TextureC2Ev,00122900,92,O
+_ZN7Texture4LoadEPKc,0012295c,148,M
+_ZN7Texture6UnloadEv,0011e61c,88,M
+_Z14SwizzleTile8x8PvPKviPh,00123d78,176,m
 Texture_AddQuad,00125200,1112,U
 FogTexture_Flush,00126e14,32,U
 FogTexture_SetPixel,00126e34,184,U

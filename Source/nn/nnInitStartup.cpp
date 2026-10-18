@@ -1,5 +1,5 @@
 #include "Types.h"
-#include <nn/os/os_KConfigMemory.h>
+#include <nn/os/os_Memory.h>
 
 u32 s_memorySize;
 

@@ -1,5 +1,5 @@
 nninitRegion,00100024,28,U
 nninitCallStaticInitializers,00100500,44,U
 nninitSetup,00100580,32,U
-_ZN2nn4init19InitializeAllocatorEjj,001077e8,160,U
+_ZN2nn4init19InitializeAllocatorEjj,001077e8,160,M
 __sti___16_init_Default_cpp,00140ff4,40,U

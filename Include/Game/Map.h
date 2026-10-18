@@ -10,7 +10,7 @@ struct Map
 	int width, length;
 
 	u8 GetTile(int x, int y) { return data[x + y * width]; }
-	u8 GetAtrb(int tile) { return ((u32)tile < 0x100) ? atrb[tile] : 0; }
+	u8 GetAtrb(int tile);
 };
 
 enum FRAME_MODE
@@ -33,3 +33,4 @@ void PutMapFront(Map *map, int fx, int fy);
 void PutMapVector(Map *map, int fx, int fy);
 void MoveFrame(Frame *frame, NpChar *npc, Map *map);
 void MoveFrameEditor(Frame *frame, Map *map);
+void FreeMapBuffers(Map *map);

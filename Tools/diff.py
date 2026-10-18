@@ -31,7 +31,7 @@ def _load_symbol_tables():
             return
         # symbols that live in Stubs.c (placeholders, not decompiled code)
         stubs = set()
-        with open(f"{getBuildPath()}/ikachan3.axf.map") as f:
+        with open(getMapPath()) as f:
             for line in f:
                 parts = line.split()
                 if len(parts) == 6 and parts[5] == 'Stubs.o(stubs)':
