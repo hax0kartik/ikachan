@@ -1,9 +1,6 @@
 [submodule "Tools/asm-differ"]
 	path = Tools/asm-differ
 	url = https://github.com/fruityloops1/asm-differ
-[submodule "External/nnsdk"]
-	path = External/nnsdk
-	url = https://github.com/hax0kartik/nnsdk.git
 [submodule "External/CTR_SDK"]
 	path = External/CTR_SDK
 	url = https://github.com/hax0kartik/CTR_SDK.git

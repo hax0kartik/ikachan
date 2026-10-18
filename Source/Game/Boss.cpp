@@ -166,8 +166,8 @@ void ActBoss(CaretSpawner *caret_spawner)
 			{
 				//Turn around with bubble effect
 				gBoss.direct = 0;
-				int bubble_i = FindCaretSpawner(caret_spawner);
-				if (bubble_i != NO_CARET)
+				int bubble_i;
+				if ((bubble_i = FindCaretSpawner(caret_spawner)) != NO_CARET)
 				{
 					CaretSpawner *caretsp = &caret_spawner[bubble_i];
 					caretsp->cond = true;
@@ -188,8 +188,8 @@ void ActBoss(CaretSpawner *caret_spawner)
 			{
 				//Turn around with bubble effect
 				gBoss.direct = 1;
-				int bubble_i = FindCaretSpawner(caret_spawner);
-				if (bubble_i != NO_CARET)
+				int bubble_i;
+				if ((bubble_i = FindCaretSpawner(caret_spawner)) != NO_CARET)
 				{
 					CaretSpawner *caretsp = &caret_spawner[bubble_i];
 					caretsp->cond = true;
@@ -252,10 +252,10 @@ void ActBoss(CaretSpawner *caret_spawner)
 				gBoss.act_wait = 400;
 				gBoss.ym = 0;
 				gBoss.act_no = 2;
-				if ((gBoss.x + 0x6000) <= gMC.x)
-					gBoss.xm = 0x4000;
-				else
+				if ((gBoss.x + 0x6000) > gMC.x)
 					gBoss.xm = -0x4000;
+				else
+					gBoss.xm = 0x4000;
 			}
 			
 			//Face in moving direction
