@@ -289,6 +289,132 @@ extern RawTexture gFogTexture;
 extern "C" void FogTexture_SetPixel(RawTexture *tex, u32 x, int y, u32 color);
 extern "C" void FogTexture_Flush(RawTexture *tex);
 
+char JudgeHitMyCharSnack(int x, int y, char flag, CaretSpawner *caretSpawner, Map *map, u8 atrb)
+{
+    //Reset collision flag
+    gMC.flag = 0;
+
+    //Collide with block
+    if ((flag & 1) && (flag & 2))
+    {
+        if ((gMC.x / 0x400) < (x * 16 + 15) && (gMC.y / 0x400) < (y * 16 + 12))
+        {
+            if (gMC.unit != 1)
+                gMC.xm = 0;
+            gMC.x = (x * 16 + 15) << 10;
+            gMC.flag |= 1;
+        }
+        if ((gMC.y / 0x400) < (y * 16 + 15) && (gMC.x / 0x400) < (x * 16 + 12))
+        {
+            if (gMC.unit != 1)
+                gMC.ym = 0;
+            gMC.y = (y * 16 + 16) << 10;
+            gMC.flag |= 2;
+        }
+    }
+
+    if ((flag & 4) && (flag & 2))
+    {
+        if (((gMC.x + 0x3FF) / 0x400) > (x * 16 - 14) && (gMC.y / 0x400) < (y * 16 + 12))
+        {
+            if (gMC.unit != 1)
+                gMC.xm = 0;
+            gMC.x = (x * 16 - 14) << 10;
+            gMC.flag |= 4;
+        }
+        if ((gMC.y / 0x400) < (y * 16 + 15) && (gMC.x / 0x400) > (x * 16 - 12))
+        {
+            if (gMC.unit != 1)
+                gMC.ym = 0;
+            gMC.y = (y * 16 + 16) << 10;
+            gMC.flag |= 2;
+        }
+    }
+
+    if ((flag & 1) && (flag & 8))
+    {
+        if ((gMC.x / 0x400) < (x * 16 + 15) && (gMC.y / 0x400) > (y * 16 - 12))
+        {
+            if (gMC.unit != 1)
+                gMC.xm = 0;
+            gMC.x = (x * 16 + 15) << 10;
+            gMC.flag |= 1;
+        }
+        if ((gMC.y / 0x400) >= (y * 16 - 16) && (gMC.x / 0x400) < (x * 16 + 12))
+        {
+            if (gMC.unit != 1)
+            {
+                gMC.airborne = false;
+                if (gMC.ym > 0)
+                    gMC.ym = 0;
+            }
+            gMC.y = (y * 16 - 16) << 10;
+            gMC.flag |= 8;
+        }
+    }
+
+    if ((flag & 4) && (flag & 8))
+    {
+        if (((gMC.x + 0x3FF) / 0x400) > (x * 16 - 14) && (gMC.y / 0x400) > (y * 16 - 12))
+        {
+            if (gMC.unit != 1)
+                gMC.xm = 0;
+            gMC.x = (x * 16 - 14) << 10;
+            gMC.flag |= 4;
+        }
+        if ((gMC.y / 0x400) >= (y * 16 - 16) && (gMC.x / 0x400) > (x * 16 - 12))
+        {
+            if (gMC.unit != 1)
+            {
+                gMC.airborne = false;
+                if (gMC.ym > 0)
+                    gMC.ym = 0;
+            }
+            gMC.y = (y * 16 - 16) << 10;
+            gMC.flag |= 8;
+        }
+    }
+
+    //Break block
+    if ((gMC.unit == 1 && gMC.flag != 8 && gMC.flag) || ((gMC.equip & 1) && (gMC.flag & 2)))
+    {
+        //Destroy block
+        PlaySoundObject(SOUND_ID_CRASH, SOUND_MODE_PLAY);
+        u8 *tile = &map->data[x + y * map->width];
+        if (atrb == 0x43)
+        {
+            *tile = 0;
+            FogTexture_SetPixel(&gFogTexture, x, y, 0);
+            FogTexture_Flush(&gFogTexture);
+        }
+        else
+        {
+            *tile = 0x40;
+        }
+
+        //Create bubbles
+        int bubble_i;
+        if ((bubble_i = FindCaretSpawner(caretSpawner)) != NO_CARET)
+        {
+            CaretSpawner *caretsp = &caretSpawner[bubble_i];
+            caretsp->cond = true;
+            caretsp->type = 1;
+            caretsp->ani_no = 0;
+            caretsp->num = 5;
+            caretsp->x = (x * 16 + 8) << 10;
+            caretsp->y = (y * 16 + 8) << 10;
+            caretsp->rand_moveright = 0x400;
+            caretsp->rand_moveleft = -0x400;
+            caretsp->rand_movedown = 0x400;
+            caretsp->rand_moveup = -0x400;
+            caretsp->rand_x = 8;
+            caretsp->rand_y = 8;
+        }
+    }
+
+    return gMC.flag;
+}
+
 void JudgeHitMyCharItem(int x, int y, CaretSpawner *caretSpawner, Map *map)
 {
     if ((gMC.x / 0x400) < (x * 16 + 8) &&
