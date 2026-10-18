@@ -531,8 +531,14 @@ void ActNpChar03(NpChar *npc)
     }
 }
 
+//NOTE: Most likely a false match. I don't think any programmer would do int &y = npc->y;
+//instead of just using npc->y directly. Only here because it matches.
+#define RESET_ANIM(npc, max) do { (npc)->ani_wait = 0; if (++(npc)->ani_no > (max)) (npc)->ani_no = 0; } while (0)
+
 void ActNpChar04(NpChar *npc)
 {
+    int &y = npc->y;
+
     //Move towards Ikachan
     if (npc->x > gMC.x)
         npc->xm -= 24;
@@ -540,7 +546,7 @@ void ActNpChar04(NpChar *npc)
         npc->xm += 24;
     if (npc->y > gMC.y)
         npc->ym -= 16;
-    if (npc->y < gMC.y)
+    if (y < gMC.y)
         npc->ym += 16;
     
     //Face towards Ikachan
@@ -548,20 +554,16 @@ void ActNpChar04(NpChar *npc)
         npc->direct = 0;
     if (npc->x < gMC.x)
         npc->direct = 1;
-    if ((npc->x - 0x8000) < gMC.x && (npc->x + 0x8000) > gMC.x && (npc->y - 0x8000) < gMC.y && (npc->y + 0x8000) > gMC.y)
+    if ((npc->x - 0x8000) < gMC.x && (npc->x + 0x8000) > gMC.x && (y - 0x8000) < gMC.y && (y + 0x8000) > gMC.y)
         npc->direct = 2;
-    if ((npc->y + 0x2000) > gMC.y)
+    if ((y + 0x2000) > gMC.y)
         npc->act_no = 1;
     else
         npc->act_no = 0;
     
     //Animate
     if (++npc->ani_wait > 8)
-    {
-        npc->ani_wait = 0;
-        if (++npc->ani_no > 1)
-            npc->ani_no = 0;
-    }
+        RESET_ANIM(npc, 1);
     
     //Limit speed
     if (npc->xm > 0x400)
