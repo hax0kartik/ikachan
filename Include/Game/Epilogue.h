@@ -17,7 +17,6 @@ struct EpilogueBubble
     float depth; // 24
 };
 
-extern EpilogueBubble gEpilogueBubbles[MAX_EPILOGUE_BUBBLES];
-
 void InitEpilogueBubbles();
 void PutEpilogueBubbles();
+int EpilogueScreen();

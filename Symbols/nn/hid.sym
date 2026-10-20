@@ -1,5 +1,5 @@
-nn::hid::CTR::GetTouch,0010753c,8,U
-nn::hid::CTR::GetPad,00107548,8,U
+_ZN2nn3hid3CTR13GetTouchPanelEv,0010753c,8,U
+_ZN2nn3hid3CTR6GetPadEv,00107548,8,U
 _ZN2nn3hid3CTR9PadReaderC1ERNS1_3PadE,00107554,52,U
 _ZN2nn3hid3CTR10InitializeEv,0010dc78,16,U
 _ZN2nn3hid3CTR18AnalogStickClamperC1Ev,0010dc90,100,U

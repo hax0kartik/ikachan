@@ -1,5 +1,9 @@
 #pragma once
 #include "types.h"
+#include "Game/Item.h"
+#include "Game/Fade.h"
+#include "Game/NpChar.h"
+#include "Game/Map.h"
 
 struct EventScr
 {
@@ -28,3 +32,7 @@ struct EventScr
 	bool select; //x25
 };
 
+struct PiyoCont;
+
+extern "C" char EventScriptProc(EventScr *ptx, Items *items, NpChar *npc, Map *map, PiyoCont *piyocont, Fade *fade, Frame *frame);
+void PutMsgBox(EventScr *ptx);

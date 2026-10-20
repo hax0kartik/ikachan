@@ -30,3 +30,7 @@ void EndFrame(System *system);
 void ProcessSystemEvents();
 
 int Random(int min, int max);
+
+extern "C" void SetClearColor(System *system, float r, float g, float b);
+extern "C" void SetRenderTarget(System *system, int screen);
+extern "C" void FinishFrame();

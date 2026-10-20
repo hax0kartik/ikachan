@@ -1,4 +1,5 @@
 #pragma once
+#include "types.h"
 
 enum SOUND_ID
 {
@@ -29,3 +30,14 @@ enum SOUND_MODE
 };
 
 void PlaySoundObject(int no, int mode);
+
+struct PiyoCont
+{
+	char mode; // 0
+	char track; // 1
+	char prev_track; // 2
+	//alignment 3
+	s16 volume; // 4
+};
+
+extern "C" void PiyoPiyoControl(PiyoCont *piyocont);

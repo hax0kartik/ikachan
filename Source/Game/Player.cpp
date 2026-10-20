@@ -285,9 +285,9 @@ char JudgeHitMyCharBlock(int x, int y, char flag)
 }
 
 struct RawTexture;
-extern RawTexture gFogTexture;
-extern "C" void FogTexture_SetPixel(RawTexture *tex, u32 x, int y, u32 color);
-extern "C" void FogTexture_Flush(RawTexture *tex);
+extern RawTexture gMinimapTexture;
+extern "C" void RawTexture_SetPixel(RawTexture *tex, u32 x, int y, u32 color);
+extern "C" void RawTexture_Flush(RawTexture *tex);
 
 char JudgeHitMyCharSnack(int x, int y, char flag, CaretSpawner *caretSpawner, Map *map, u8 atrb)
 {
@@ -384,8 +384,8 @@ char JudgeHitMyCharSnack(int x, int y, char flag, CaretSpawner *caretSpawner, Ma
         if (atrb == 0x43)
         {
             *tile = 0;
-            FogTexture_SetPixel(&gFogTexture, x, y, 0);
-            FogTexture_Flush(&gFogTexture);
+            RawTexture_SetPixel(&gMinimapTexture, x, y, 0);
+            RawTexture_Flush(&gMinimapTexture);
         }
         else
         {
@@ -424,8 +424,8 @@ void JudgeHitMyCharItem(int x, int y, CaretSpawner *caretSpawner, Map *map)
     {
         //Remove item and reveal it on the fog map
         map->data[x + y * map->width] = 0;
-        FogTexture_SetPixel(&gFogTexture, x, y, 0);
-        FogTexture_Flush(&gFogTexture);
+        RawTexture_SetPixel(&gMinimapTexture, x, y, 0);
+        RawTexture_Flush(&gMinimapTexture);
 
         //Play item sound, add exp and life
         PlaySoundObject(SOUND_ID_ITEM, SOUND_MODE_PLAY);
