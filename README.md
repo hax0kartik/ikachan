@@ -1,6 +1,10 @@
 # Ikachan3
 
 This is a decompilation of the 3DS version of Ikachan.
+You'll need to put the armcc compiler(973) in the Compilers directory. It should have a `bin`, `include` and a `lib` folder.
+
+You'll also need to put the orig `code.bin` in a `orig` folder if you want to perform a diff.
+
 ## Progress
 
 <img src ="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/hax0kartik/ikachan/master/Data/Code.json&style=flat-square"/>
